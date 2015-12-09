@@ -3053,6 +3053,12 @@ func (b *builder) cgo(p *Package, cgoExe, obj string, pcCFLAGS, pcLDFLAGS, cgofi
 		return outGo, outObj, nil
 	}
 
+	// XXX: to allow building c-archives in a Rumprun environment
+	// (cross-only?) where we don't do dynamic stuff.
+	if goos == "netbsd" {
+		return outGo, outObj, nil
+	}
+
 	// cgo -dynimport
 	importGo := obj + "_cgo_import.go"
 	cgoflags = []string{}
