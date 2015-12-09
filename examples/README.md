@@ -8,6 +8,13 @@ and then in `go/src` run:
 GOROOT_BOOTSTRAP=/path/to/go1.4 GOOS=netbsd GOARCH=amd64 ./make.bash
 ```
 
+You'll see some link errors which you should ignore for now, e.g.:
+
+```
+runtime.usleep: undefined: _sys___nanosleep50
+gorump/go/pkg/tool/linux_amd64/link: too many errors
+```
+
 Building applications
 =====================
 
@@ -15,10 +22,10 @@ We bundle applications with Rumprun by building a c-archive from them,
 and linking that to the Rumprun image.  You will need a Rumprun toolchain
 for this step.  We assume you have one.
 
-To build an archive out of the included `main.go` in `go/bin`:
+To build an archive out of the included `main.go` in `examples`:
 
 ```
-CC=x86_64-rumprun-netbsd-gcc CGO_ENABLED=1 GOOS=netbsd -buildmode c-archive -v -a -x ./go build main.go
+CC=x86_64-rumprun-netbsd-gcc CGO_ENABLED=1 GOOS=netbsd ../go/bin/go build -buildmode c-archive -v -a -x main.go
 ```
 
 (`-vax` is optional, but it's useful to get an idea of what's going on)
