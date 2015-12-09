@@ -6,7 +6,7 @@ httpserver.a: httpserver.go
 httpserver.h: httpserver.a
 
 httpd: httpserver.a httpserver.h
-	x86_64-rumprun-netbsd-gcc -g -o $@ httpd.c httpserver.a
+	RUMPRUN_STUBLINK=succeed x86_64-rumprun-netbsd-gcc -g -o $@ httpd.c httpserver.a
 
 httpd.bin: httpd
 	rumprun-bake hw_virtio $@ $<
