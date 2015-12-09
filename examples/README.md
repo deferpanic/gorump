@@ -51,5 +51,4 @@ reasonable size later)
 If it doesn't work
 ==================
 
-Support for now is pre-alpha, but will hopefully improve in the next few
-days.  Anything beyond hello world is not even expected to work currently.
+Support for now is pre-alpha, but will hopefully improve in the next few days.
