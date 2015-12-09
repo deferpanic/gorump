@@ -158,7 +158,14 @@ const (
 	// On Darwin/arm64, we cannot reserve more than ~5GB of virtual memory,
 	// but as most devices have less than 4GB of physical memory anyway, we
 	// try to be conservative here, and only ask for a 2GB heap.
-	_MHeapMap_TotalBits = (_64bit*goos_windows)*35 + (_64bit*(1-goos_windows)*(1-goos_darwin*goarch_arm64))*39 + goos_darwin*goarch_arm64*31 + (1-_64bit)*32
+
+
+	// XXX: adjust memory allocation size for Rumprun.  Since we have
+	// only PA, don't allocate an insane slice.  That said, we currently
+	// need quite a large slice due to some other internal Go constants.
+	//_MHeapMap_TotalBits = (_64bit*goos_windows)*35 + (_64bit*(1-goos_windows)*(1-goos_darwin*goarch_arm64))*39 + goos_darwin*goarch_arm64*31 + (1-_64bit)*32
+	_MHeapMap_TotalBits = 28
+
 	_MHeapMap_Bits      = _MHeapMap_TotalBits - _PageShift
 
 	_MaxMem = uintptr(1<<_MHeapMap_TotalBits - 1)
