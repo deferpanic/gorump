@@ -158,6 +158,12 @@ func memlimit() uintptr {
 
 func sigtramp()
 
+type sigactiont struct {
+	sa_sigaction uintptr
+	sa_mask	     sigset
+	sa_flags     int32
+}
+
 func setsig(i int32, fn uintptr, restart bool) {
 }
 
@@ -166,6 +172,7 @@ func setsigstack(i int32) {
 }
 
 func getsig(i int32) uintptr {
+	return 0
 }
 
 func signalstack(s *stack) {
