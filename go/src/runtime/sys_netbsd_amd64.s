@@ -276,18 +276,16 @@ TEXT runtime·sysctl(SB),NOSPLIT,$0
 	RET
 
 // int32 runtime·kqueue(void)
-// XXXTODO
 TEXT runtime·kqueue(SB),NOSPLIT,$0
 	MOVQ	$0, DI
-	MOVL	$344, AX
-	SYSCALL
+	LEAQ	_sys_kqueue(SB), AX
+	CALL	AX
 	JCC	2(PC)
 	NEGQ	AX
 	MOVL	AX, ret+0(FP)
 	RET
 
 // int32 runtime·kevent(int kq, Kevent *changelist, int nchanges, Kevent *eventlist, int nevents, Timespec *timeout)
-// XXXTODO
 TEXT runtime·kevent(SB),NOSPLIT,$0
 	MOVL	fd+0(FP), DI
 	MOVQ	ev1+8(FP), SI
@@ -295,19 +293,18 @@ TEXT runtime·kevent(SB),NOSPLIT,$0
 	MOVQ	ev2+24(FP), CX
 	MOVL	nev2+32(FP), R8
 	MOVQ	ts+40(FP), R9
-	MOVL	$435, AX
-	SYSCALL
+	LEAQ	_sys___kevent50(SB), AX
+	CALL	AX
 	JCC	2(PC)
 	NEGQ	AX
 	MOVL	AX, ret+48(FP)
 	RET
 
 // void runtime·closeonexec(int32 fd)
-// XXXTODO
 TEXT runtime·closeonexec(SB),NOSPLIT,$0
 	MOVL	fd+0(FP), DI	// fd
 	MOVQ	$2, SI		// F_SETFD
 	MOVQ	$1, DX		// FD_CLOEXEC
-	MOVL	$92, AX		// fcntl
-	SYSCALL
+	LEAQ	_sys_fcntl(SB), AX
+	CALL	AX
 	RET

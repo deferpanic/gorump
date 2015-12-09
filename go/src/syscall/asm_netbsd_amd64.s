@@ -19,53 +19,45 @@
 
 TEXT	·Syscall(SB),NOSPLIT,$0-56
 	CALL	runtime·entersyscall(SB)
-	MOVQ	8(SP), AX	// syscall entry
-	MOVQ	16(SP), DI
-	MOVQ	24(SP), SI
-	MOVQ	32(SP), DX
-	MOVQ	$0, R10
-	MOVQ	$0, R8
-	MOVQ	$0, R9
-	// XXXXXX  to get hello world going.  this is obviously not a
-	// XXXXXX  general solution
-	LEAQ	_sys_write(SB), AX
+
+	MOVQ	8(SP), DI
+	MOVQ	SP, SI
+	ADDQ	$16, SI
+	MOVQ	$0, DX		// dlen is ignored for local calls
+	MOVQ	SP, CX
+	ADDQ	$40, CX
+	LEAQ	rump_syscall(SB), AX
 	CALL	AX
-	JCC	ok
-	MOVQ	$-1, 40(SP)	// r1
-	MOVQ	$0, 48(SP)	// r2
+	JCC	ok1
 	MOVQ	AX, 56(SP)	// errno
 	CALL	runtime·exitsyscall(SB)
 	RET
-ok:
-	MOVQ	AX, 40(SP)	// r1
-	MOVQ	DX, 48(SP)	// r2
+ok1:
 	MOVQ	$0, 56(SP)	// errno
 	CALL	runtime·exitsyscall(SB)
 	RET
 
 TEXT	·Syscall6(SB),NOSPLIT,$0-80
 	CALL	runtime·entersyscall(SB)
-	MOVQ	8(SP), AX	// syscall entry
-	MOVQ	16(SP), DI
-	MOVQ	24(SP), SI
-	MOVQ	32(SP), DX
-	MOVQ	40(SP), R10
-	MOVQ	48(SP), R8
-	MOVQ	56(SP), R9
-	SYSCALL
+	MOVQ	8(SP), DI
+	MOVQ	SP, SI
+	ADDQ	$16, SI
+	MOVQ	$0, DX		// dlen is ignored for local calls
+	MOVQ	SP, CX
+	ADDQ	$64, CX
+	LEAQ	rump_syscall(SB), AX
+	CALL	AX
 	JCC	ok6
-	MOVQ	$-1, 64(SP)	// r1
-	MOVQ	$0, 72(SP)	// r2
 	MOVQ	AX, 80(SP)  	// errno
 	CALL	runtime·exitsyscall(SB)
 	RET
 ok6:
-	MOVQ	AX, 64(SP)	// r1
-	MOVQ	DX, 72(SP)	// r2
 	MOVQ	$0, 80(SP)	// errno
 	CALL	runtime·exitsyscall(SB)
 	RET
 
+// XXX: not quite sure what should be going on here, so will wait
+// until we run into a program which dies here
 TEXT	·Syscall9(SB),NOSPLIT,$0-104
 	CALL	runtime·entersyscall(SB)
 	MOVQ	8(SP), AX	// syscall entry
@@ -99,41 +91,33 @@ ok9:
 	RET
 
 TEXT	·RawSyscall(SB),NOSPLIT,$0-56
-	MOVQ	16(SP), DI
-	MOVQ	24(SP), SI
-	MOVQ	32(SP), DX
-	MOVQ	$0, R10
-	MOVQ	$0, R8
-	MOVQ	$0, R9
-	MOVQ	8(SP), AX	// syscall entry
-	SYSCALL
+	MOVQ	8(SP), DI
+	MOVQ	SP, SI
+	ADDQ	$16, SI
+	MOVQ	$0, DX		// dlen is ignored for local calls
+	MOVQ	SP, CX
+	ADDQ	$40, CX
+	LEAQ	rump_syscall(SB), AX
+	CALL	AX
 	JCC	ok1
-	MOVQ	$-1, 40(SP)	// r1
-	MOVQ	$0, 48(SP)	// r2
 	MOVQ	AX, 56(SP)	// errno
 	RET
 ok1:
-	MOVQ	AX, 40(SP)	// r1
-	MOVQ	DX, 48(SP)	// r2
 	MOVQ	$0, 56(SP)	// errno
 	RET
 
 TEXT	·RawSyscall6(SB),NOSPLIT,$0-80
-	MOVQ	16(SP), DI
-	MOVQ	24(SP), SI
-	MOVQ	32(SP), DX
-	MOVQ	40(SP), R10
-	MOVQ	48(SP), R8
-	MOVQ	56(SP), R9
-	MOVQ	8(SP), AX	// syscall entry
-	SYSCALL
-	JCC	ok2
-	MOVQ	$-1, 64(SP)	// r1
-	MOVQ	$0, 72(SP)	// r2
+	MOVQ	8(SP), DI
+	MOVQ	SP, SI
+	ADDQ	$16, SI
+	MOVQ	$0, DX		// dlen is ignored for local calls
+	MOVQ	SP, CX
+	ADDQ	$64, CX
+	LEAQ	rump_syscall(SB), AX
+	CALL	AX
+	JCC	ok1
 	MOVQ	AX, 80(SP)	// errno
 	RET
-ok2:
-	MOVQ	AX, 64(SP)	// r1
-	MOVQ	DX, 72(SP)	// r2
+ok1:
 	MOVQ	$0, 80(SP)	// errno
 	RET
