@@ -28,7 +28,8 @@ TEXT	·Syscall(SB),NOSPLIT,$0-56
 	ADDQ	$40, CX
 	LEAQ	rump_syscall(SB), AX
 	CALL	AX
-	JCC	ok1
+	TESTQ	AX, AX
+	JE	ok1
 	MOVQ	AX, 56(SP)	// errno
 	CALL	runtime·exitsyscall(SB)
 	RET
@@ -47,7 +48,8 @@ TEXT	·Syscall6(SB),NOSPLIT,$0-80
 	ADDQ	$64, CX
 	LEAQ	rump_syscall(SB), AX
 	CALL	AX
-	JCC	ok6
+	TESTQ	AX, AX
+	JE	ok6
 	MOVQ	AX, 80(SP)  	// errno
 	CALL	runtime·exitsyscall(SB)
 	RET
@@ -99,7 +101,8 @@ TEXT	·RawSyscall(SB),NOSPLIT,$0-56
 	ADDQ	$40, CX
 	LEAQ	rump_syscall(SB), AX
 	CALL	AX
-	JCC	ok1
+	TESTQ	AX, AX
+	JE	ok1
 	MOVQ	AX, 56(SP)	// errno
 	RET
 ok1:
@@ -115,7 +118,8 @@ TEXT	·RawSyscall6(SB),NOSPLIT,$0-80
 	ADDQ	$64, CX
 	LEAQ	rump_syscall(SB), AX
 	CALL	AX
-	JCC	ok1
+	TESTQ	AX, AX
+	JE	ok1
 	MOVQ	AX, 80(SP)	// errno
 	RET
 ok1:
