@@ -26,7 +26,10 @@ TEXT	·Syscall(SB),NOSPLIT,$0-56
 	MOVQ	$0, R10
 	MOVQ	$0, R8
 	MOVQ	$0, R9
-	SYSCALL
+	// XXXXXX  to get hello world going.  this is obviously not a
+	// XXXXXX  general solution
+	LEAQ	_sys_write(SB), AX
+	CALL	AX
 	JCC	ok
 	MOVQ	$-1, 40(SP)	// r1
 	MOVQ	$0, 48(SP)	// r2
