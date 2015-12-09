@@ -1,9 +1,10 @@
 # gorump
 go on rumprun
 
-This contains the source to go 1.5.1 stable c7d78ba4df574b5f9a9bb5d17505f40c4d89b81c
+This repo is based on Go the source 1.5.1 stable c7d78ba4df574b5f9a9bb5d17505f40c4d89b81c
 downloaded at https://storage.googleapis.com/golang/go1.5.1.src.tar.gz .
 
-It also contains a patch.
+On top, the NetBSD platform has been modified to support Rumprun instead.
+To generate a patch: `git diff go-1-5-1-upstream master`
 
-To build:
+See `examples` directory on how to build and use.
