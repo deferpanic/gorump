@@ -51,10 +51,12 @@ TEXT runtime·osyield(SB),NOSPLIT,$0
 	RET
 
 TEXT runtime·lwp_park(SB),NOSPLIT,$0
-	MOVQ	abstime+0(FP), DI		// arg 1 - abstime
-	MOVL	unpark+8(FP), SI		// arg 2 - unpark
-	MOVQ	hint+16(FP), DX		// arg 3 - hint
-	MOVQ	unparkhint+24(FP), CX		// arg 4 - unparkhint
+	MOVQ	$0, DI				// arg 1 - clock id (REALTIME)
+	MOVQ	$1, SI				// arg 2 - flags (ABSTIME)
+	MOVQ	abstime+0(FP), DX		// arg 3 - abstime
+	MOVL	unpark+8(FP), CX		// arg 4 - unpark
+	MOVQ	hint+16(FP), R8			// arg 5 - hint
+	MOVQ	unparkhint+24(FP), R9		// arg 6 - unparkhint
 	LEAQ	___lwp_park60(SB), AX
 	CALL	AX
 	MOVL	AX, ret+32(FP)
