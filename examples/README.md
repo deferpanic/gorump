@@ -41,12 +41,8 @@ rumprun-bake hw_virtio hello.bin hello
 If all went well, you should be able to Rumprun the result:
 
 ```
-rumprun kvm -i -M 2000 hello.bin
+rumprun kvm -i hello.bin
 ```
-
-(yes, you need a lot of memory for now, will fix things to a more
-reasonable size later)
-
 
 If it doesn't work
 ==================
