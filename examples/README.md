@@ -8,13 +8,6 @@ and then in `go/src` run:
 GOROOT_BOOTSTRAP=/path/to/go1.4 GOOS=netbsd GOARCH=amd64 ./make.bash
 ```
 
-You'll see some link errors which you should ignore for now, e.g.:
-
-```
-runtime.usleep: undefined: _sys___nanosleep50
-gorump/go/pkg/tool/linux_amd64/link: too many errors
-```
-
 Building applications
 =====================
 
