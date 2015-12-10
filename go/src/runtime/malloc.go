@@ -164,7 +164,7 @@ const (
 	// only PA, don't allocate an insane slice.  That said, we currently
 	// need quite a large slice due to some other internal Go constants.
 	//_MHeapMap_TotalBits = (_64bit*goos_windows)*35 + (_64bit*(1-goos_windows)*(1-goos_darwin*goarch_arm64))*39 + goos_darwin*goarch_arm64*31 + (1-_64bit)*32
-	_MHeapMap_TotalBits = 28
+	_MHeapMap_TotalBits = 21
 
 	_MHeapMap_Bits      = _MHeapMap_TotalBits - _PageShift
 
