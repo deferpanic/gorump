@@ -1,15 +1,14 @@
-all: httpd.bin
+all: httpd.bin hello.bin
 
-httpserver.a: httpserver.go
-	CC=x86_64-rumprun-netbsd-gcc CGO_ENABLED=1 GOOS=netbsd ../go/bin/go build -buildmode=c-archive -v -a -x httpserver.go
+%.a: %.go
+	CC=x86_64-rumprun-netbsd-gcc CGO_ENABLED=1 GOOS=netbsd ../go/bin/go build -buildmode=c-archive -v -a -x $<
 
-httpserver.h: httpserver.a
+%.pseudo: %.a
+	RUMPRUN_STUBLINK=succeed x86_64-rumprun-netbsd-gcc -g -o $@ $(basename $@).c $<
 
-httpd: httpserver.a httpserver.h
-	RUMPRUN_STUBLINK=succeed x86_64-rumprun-netbsd-gcc -g -o $@ httpd.c httpserver.a
-
-httpd.bin: httpd
+%.bin: %.pseudo
 	rumprun-bake hw_virtio $@ $<
 
 clean:
-	rm -f httpserver.a httpserver.h httpd httpd.bin
+	rm -f httpd.a httpd.h httpd httpd.bin
+	rm -f hello.a hello.h hello hello.bin
