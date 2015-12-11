@@ -85,13 +85,6 @@ TEXT runtime·exit(SB),NOSPLIT,$-8
 	MOVL	$0xf1, 0xf1		// crash
 	RET
 
-// XXXTODO
-TEXT runtime·exit1(SB),NOSPLIT,$-8
-	MOVL	$310, AX		// sys__lwp_exit
-	SYSCALL
-	MOVL	$0xf1, 0xf1		// crash
-	RET
-
 TEXT runtime·open(SB),NOSPLIT,$-8
 	MOVQ	name+0(FP), DI		// arg 1 pathname
 	MOVL	mode+8(FP), SI		// arg 2 flags
