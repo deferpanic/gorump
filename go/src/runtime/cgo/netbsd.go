@@ -29,6 +29,7 @@ var _progname uintptr
 //go:cgo_import_static _sys___clock_gettime50
 //go:cgo_import_static _sys_kqueue
 //go:cgo_import_static _sys_fcntl
+//go:cgo_import_static _exit
 
 //go:cgo_import_static _lwp_self
 //go:cgo_import_static ___lwp_park60

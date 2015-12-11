@@ -77,11 +77,10 @@ TEXT runtime·lwp_self(SB),NOSPLIT,$0
 	RET
 
 // Exit the entire program (like C exit)
-// XXXTODO
 TEXT runtime·exit(SB),NOSPLIT,$-8
 	MOVL	code+0(FP), DI		// arg 1 - exit status
-	MOVL	$1, AX			// sys_exit
-	SYSCALL
+	LEAQ	_exit(SB), AX
+	CALL	AX
 	MOVL	$0xf1, 0xf1		// crash
 	RET
 
