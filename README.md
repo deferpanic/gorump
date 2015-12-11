@@ -15,9 +15,6 @@ TODO
 * separate Rumprun from NetBSD (done that way because it avoided
   duplicating everything for the initial experiment)
 * remove remaining instances of SYSCALL from `sys_netbsd_amd64.s`
-* fix calls which are expected to return a value, can be modeled after
-  kevent (`sys_netbsd_amd64.s`)
-* fix `Syscall9` (`asm_netbsd_amd64.s`)
 * add i386 support (if someone wants a hobby)
 * figure out what to do about TLS and goroutines (rump kernels and
   bmk use TLS)
