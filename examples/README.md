@@ -13,21 +13,24 @@ Building applications
 
 We bundle applications with Rumprun by building a c-archive from them,
 and linking that to the Rumprun image.  You will need a Rumprun toolchain
-for this step.  We assume you have one.
+for this step.  We assume you have one and it is in `$PATH`.
 
-To build an archive out of the included `main.go` in `examples`:
+You can just run `make`.
+
+Alternatively, to demonstrate the process, below is a depiction of what
+actually happens:
 
 ```
-CC=x86_64-rumprun-netbsd-gcc CGO_ENABLED=1 GOOS=netbsd ../go/bin/go build -buildmode c-archive -v -a -x main.go
+CC=x86_64-rumprun-netbsd-gcc CGO_ENABLED=1 GOOS=netbsd ../go/bin/go build -buildmode c-archive -v -a -x hello.go
 ```
 
 (`-vax` is optional, but it's useful to get an idea of what's going on)
 
-You should now have `main.a`.  To build a Rumprun unikernel image out
+You should now have `hello.a`.  To build a Rumprun unikernel image out
 of that:
 
 ```
-x86_64-rumprun-netbsd-gcc -g -o hello hello.c ./main.a
+x86_64-rumprun-netbsd-gcc -g -o hello hello.c ./hello.a
 rumprun-bake hw_virtio hello.bin hello
 ```
 
