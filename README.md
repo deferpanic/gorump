@@ -36,7 +36,7 @@ CC=cc ./build-rr.sh hw
 TODO
 ====
 
-* setup testing
+* setup testing stub to run tests inside qemu
 * separate Rumprun from NetBSD (done that way because it avoided
   duplicating everything for the initial experiment)
 * remove remaining instances of SYSCALL from `sys_netbsd_amd64.s`
