@@ -288,16 +288,20 @@ TEXT runtime·kqueue(SB),NOSPLIT,$0
 	RET
 
 // int32 runtime·kevent(int kq, Kevent *changelist, int nchanges, Kevent *eventlist, int nevents, Timespec *timeout)
-TEXT runtime·kevent(SB),NOSPLIT,$0
-	MOVL	fd+0(FP), DI
-	MOVQ	ev1+8(FP), SI
-	MOVL	nev1+16(FP), DX
-	MOVQ	ev2+24(FP), CX
-	MOVL	nev2+32(FP), R8
-	MOVQ	ts+40(FP), R9
-	LEAQ	_sys___kevent50(SB), AX
+TEXT runtime·kevent(SB),NOSPLIT,$16
+	MOVQ	$435, DI		// kevent
+	MOVQ	SP, SI			// args
+	ADDQ	$0x18, SI		// args
+	MOVQ	$0, DX			// dlen -- ignored
+	MOVQ	SP, CX			// retval
+	LEAQ	rump_syscall(SB), AX
 	CALL	AX
-	JCC	2(PC)
+	TESTQ	AX, AX
+	JNE	err
+	MOVL	0(SP), AX
+	MOVL	AX, ret+48(FP)
+	RET
+ err:
 	NEGQ	AX
 	MOVL	AX, ret+48(FP)
 	RET
