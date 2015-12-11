@@ -10,9 +10,22 @@
 #include "go_tls.h"
 #include "textflag.h"
 
+// XXX: support for Rumprun is not complete.  If a routine starts
+// with SYSCALL, it's a sign that it hasn't been converted.
+
+// We do the backing syscalls two ways:
+// 1) indirectly via rump_syscall 2) directly calling the syscall handler
+//
+// "2" is a bit easier and less error prone to type, but it "hides" the
+// errno behind TLS.  Therefore, when we need errno, we need to "1".
+// Also, in case a call is not support by the rump kernel (e.g. mmap),
+// we always use "2".
+
 // int32 lwp_create(void *context, uintptr flags, void *lwpid)
 // XXXTODO
 TEXT runtime·lwp_create(SB),NOSPLIT,$0
+	SYSCALL				// XXX: instant trap
+
 	MOVQ	ctxt+0(FP), DI
 	MOVQ	flags+8(FP), SI
 	MOVQ	lwpid+16(FP), DX
@@ -25,6 +38,7 @@ TEXT runtime·lwp_create(SB),NOSPLIT,$0
 
 // XXXTODO
 TEXT runtime·lwp_tramp(SB),NOSPLIT,$0
+	SYSCALL				// XXX: instant trap
 	
 	// Set FS to point at m->tls.
 	LEAQ	m_tls(R8), DI
@@ -46,6 +60,8 @@ TEXT runtime·lwp_tramp(SB),NOSPLIT,$0
 
 // XXXTODO
 TEXT runtime·osyield(SB),NOSPLIT,$0
+	SYSCALL				// XXX: instant trap
+
 	MOVL	$350, AX		// sys_sched_yield
 	SYSCALL
 	RET
@@ -90,8 +106,6 @@ TEXT runtime·open(SB),NOSPLIT,$-8
 	MOVL	perm+12(FP), DX		// arg 3 mode
 	LEAQ	_sys_open(SB), AX
 	CALL	AX
-	JCC	2(PC)
-	MOVL	$-1, AX
 	MOVL	AX, ret+16(FP)
 	RET
 
@@ -99,8 +113,6 @@ TEXT runtime·closefd(SB),NOSPLIT,$-8
 	MOVL	fd+0(FP), DI		// arg 1 fd
 	LEAQ	_sys_close(SB), AX
 	CALL	AX
-	JCC	2(PC)
-	MOVL	$-1, AX
 	MOVL	AX, ret+8(FP)
 	RET
 
@@ -110,8 +122,6 @@ TEXT runtime·read(SB),NOSPLIT,$-8
 	MOVL	n+16(FP), DX		// arg 3 count
 	LEAQ	_sys_read(SB), AX
 	CALL	AX
-	JCC	2(PC)
-	MOVL	$-1, AX
 	MOVL	AX, ret+24(FP)
 	RET
 
@@ -122,8 +132,6 @@ TEXT runtime·write(SB),NOSPLIT,$-8
 	MOVL	$4, AX			// sys_write
 	LEAQ	_sys_write(SB), AX
 	CALL	AX
-	JCC	2(PC)
-	MOVL	$-1, AX
 	MOVL	AX, ret+24(FP)
 	RET
 
@@ -151,6 +159,8 @@ TEXT runtime·raiseproc(SB),NOSPLIT,$16
 
 // XXXTODO (can't fix?)
 TEXT runtime·setitimer(SB),NOSPLIT,$-8
+	SYSCALL				// XXX: instant trap
+
 	MOVL	mode+0(FP), DI		// arg 1 - which
 	MOVQ	new+8(FP), SI		// arg 2 - itv
 	MOVQ	old+16(FP), DX		// arg 3 - oitv
@@ -189,6 +199,8 @@ TEXT runtime·nanotime(SB),NOSPLIT,$32
 
 // XXXTODO
 TEXT runtime·getcontext(SB),NOSPLIT,$-8
+	SYSCALL				// XXX: instant trap
+
 	MOVQ	ctxt+0(FP), DI		// arg 1 - context
 	MOVL	$307, AX		// sys_getcontext
 	SYSCALL
@@ -227,9 +239,10 @@ TEXT runtime·mmap(SB),NOSPLIT,$0
 TEXT runtime·munmap(SB),NOSPLIT,$0
 	MOVQ	addr+0(FP), DI		// arg 1 - addr
 	MOVQ	n+8(FP), SI		// arg 2 - len
-	MOVL	$73, AX			// sys_munmap
-	SYSCALL
-	JCC	2(PC)
+	LEAQ	munmap(SB), AX
+	CALL	AX
+	TESTQ	AX, AX
+	JE	2(PC)
 	MOVL	$0xf1, 0xf1		// crash
 	RET
 
@@ -244,6 +257,8 @@ TEXT runtime·sigaltstack(SB),NOSPLIT,$-8
 // set tls base to DI
 // XXXTODO
 TEXT runtime·settls(SB),NOSPLIT,$8
+	SYSCALL				// XXX: instant trap
+
 	// adjust for ELF: wants to use -8(FS) for g
 	ADDQ	$8, DI			// arg 1 - ptr
 	MOVQ	$317, AX		// sys__lwp_setprivate
@@ -252,29 +267,38 @@ TEXT runtime·settls(SB),NOSPLIT,$8
 	MOVL	$0xf1, 0xf1		// crash
 	RET
 
-TEXT runtime·sysctl(SB),NOSPLIT,$0
-	MOVQ	mib+0(FP), DI		// arg 1 - name
-	MOVL	miblen+8(FP), SI		// arg 2 - namelen
-	MOVQ	out+16(FP), DX		// arg 3 - oldp
-	MOVQ	size+24(FP), CX		// arg 4 - oldlenp
-	MOVQ	dst+32(FP), R8		// arg 5 - newp
-	MOVQ	ndst+40(FP), R9		// arg 6 - newlen
-	LEAQ	_sys___sysctl(SB), AX
+TEXT runtime·sysctl(SB),NOSPLIT,$16
+	MOVQ	$202, DI
+	MOVQ	SP, SI
+	ADDQ	$0x18, SI
+	MOVQ	$0, DX
+	MOVQ	SP, CX
+	LEAQ	rump_syscall(SB), AX
 	CALL	AX
-	JCC 4(PC)
-	NEGQ	AX
+	TESTQ	AX, AX
+	JNE	err
+	MOVL	0(SP), AX
 	MOVL	AX, ret+48(FP)
 	RET
-	MOVL	$0, AX
+ err:
+	NEGQ	AX
 	MOVL	AX, ret+48(FP)
 	RET
 
 // int32 runtime·kqueue(void)
-TEXT runtime·kqueue(SB),NOSPLIT,$0
-	MOVQ	$0, DI
-	LEAQ	_sys_kqueue(SB), AX
+TEXT runtime·kqueue(SB),NOSPLIT,$16
+	MOVQ	$344, DI
+	MOVQ	$0, SI
+	MOVQ	$0, DX
+	MOVQ	SP, CX
+	LEAQ	rump_syscall(SB), AX
 	CALL	AX
-	JCC	2(PC)
+	TESTQ	AX, AX
+	JNE	err
+	MOVL	0(SP), AX
+	MOVL	AX, ret+0(FP)
+	RET
+ err:
 	NEGQ	AX
 	MOVL	AX, ret+0(FP)
 	RET

@@ -23,12 +23,8 @@ var _progname uintptr
 
 //go:cgo_import_static rump_syscall
 
-//go:cgo_import_static _sys___sysctl
 //go:cgo_import_static _mmap
-//go:cgo_import_static _sys_write
-//go:cgo_import_static _sys___clock_gettime50
-//go:cgo_import_static _sys_kqueue
-//go:cgo_import_static _sys_fcntl
+//go:cgo_import_static munmap
 //go:cgo_import_static _exit
 
 //go:cgo_import_static _lwp_self
@@ -37,7 +33,10 @@ var _progname uintptr
 
 //go:cgo_import_static _sys_open
 //go:cgo_import_static _sys_read
+//go:cgo_import_static _sys_write
+//go:cgo_import_static _sys_fcntl
 //go:cgo_import_static _sys_close
+//go:cgo_import_static _sys___clock_gettime50
 //go:cgo_import_static _sys___nanosleep50
 
 //go:cgo_import_static kludge_argc
