@@ -220,7 +220,7 @@ TEXT runtime·mmap(SB),NOSPLIT,$0
 	MOVQ	addr+0(FP), DI		// arg 1 - addr
 	MOVQ	n+8(FP), SI		// arg 2 - len
 	MOVL	prot+16(FP), DX		// arg 3 - prot
-	MOVL	flags+20(FP), CX		// arg 4 - flags
+	MOVL	flags+20(FP), CX	// arg 4 - flags
 	MOVL	fd+24(FP), R8		// arg 5 - fd
 	MOVL	off+28(FP), R9
 	SUBQ	$16, SP
