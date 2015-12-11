@@ -1,0 +1,18 @@
+before_install:
+  - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+  - sudo apt-get update -y
+  - sudo apt-get install qemu-kvm -y
+  - sudo apt-get install libxen-dev -y
+  - sudo apt-get install g++-4.8 -y
+  - git clone https://github.com/rumpkernel/rumprun
+language: go
+script:
+  - export CC=gcc-4.8
+  - export CXX=g++-4.8
+  - cd rumprun && git submodule update --init
+  - CC=cc ./build-rr.sh hw 1> /dev/null
+  - cd $HOME/gopath/src/github.com/deferpanic/gorump/go/src && GOROOT_BOOTSTRAP=$GOROOT GOOS=netbsd GOARCH=amd64 ./make.bash
+notifications:
+  email:
+    recipients:
+      - engineering@deferpanic.com
