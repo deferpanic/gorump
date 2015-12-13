@@ -83,15 +83,15 @@ sudo ln -s /usr/local/go1.5-patched /usr/local/go
 cd examples && make
 ```
 
-#### Run the Rumprun kernel
-```
-rumprun qemu -i -g '-nographic -vga none' -D 1234 -I t,vioif,'-net tap,ifname=tap0,script=no' -W t,inet,static,10.181.181.180/24 httpd.bin
-```
-
 #### Add Networking to your Image
 ```
 sudo ip tuntap add tap0 mode tap
 sudo ifconfig tap0 inet 10.181.181.181 up
+```
+
+#### Run the Rumprun kernel
+```
+rumprun qemu -i -g '-nographic -vga none' -D 1234 -I t,vioif,'-net tap,ifname=tap0,script=no' -W t,inet,static,10.181.181.180/24 httpd.bin
 ```
 
 #### Test Your Go Rumprun server
