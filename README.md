@@ -40,7 +40,7 @@ sudo apt-get install g++-4.8 -y
 ```
 wget https://storage.googleapis.com/golang/go1.5.2.linux-amd64.tar.gz
 tar xzf go1.5*
-sudo mv go1.5 /usr/local/.
+sudo mv go /usr/local/go1.5
 sudo ln -s /usr/local/go1.5 /usr/local/go
 ```
 
@@ -67,7 +67,9 @@ export PATH="${PATH}:/home/$(whoami)/rumprun/rumprun/bin"
 ```
 
 #### Build the Modified Go
+(from within this repository)
 ```
+cd go/src
 GOROOT_BOOTSTRAP=/usr/local/go GOOS=netbsd GOARCH=amd64 ./make.bash
 ```
 
