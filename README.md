@@ -21,6 +21,8 @@ To generate a patch: `git diff go-1-5-1-upstream master`.
 We don't intend to fork Go but there's quite a lot of work to do to get
 it in enough shape to put into the main tree.
 
+You can find the latest build of the modified Go @ [https://s3.amazonaws.com/dp-gorump/gorump.tar.gz](https://s3.amazonaws.com/dp-gorump/gorump.tar.gz) .
+
 Please submit pull requests!
 
 See `examples` directory on how to build and use.
