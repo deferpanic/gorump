@@ -1,0 +1,45 @@
+ dpkg-buildpackage -rfakeroot -d -us -uc -S -sa
+dpkg-buildpackage: source package gorump
+dpkg-buildpackage: source version 1.0-1
+dpkg-buildpackage: source distribution unstable
+dpkg-buildpackage: source changed by Vladislav Sukhin <vsukhin@deferpanic.com>
+ dpkg-source --before-build gorump-1.0
+ fakeroot debian/rules clean
+dh clean 
+   dh_testdir
+   dh_auto_clean
+   dh_clean
+ dpkg-source -b gorump-1.0
+dpkg-source: info: using source format `3.0 (quilt)'
+dpkg-source: info: building gorump using existing ./gorump_1.0.orig.tar.xz
+dpkg-source: info: building gorump in gorump_1.0-1.debian.tar.xz
+dpkg-source: info: building gorump in gorump_1.0-1.dsc
+ dpkg-genchanges -S -sa >../gorump_1.0-1_source.changes
+dpkg-genchanges: including full source code in upload
+ dpkg-source --after-build gorump-1.0
+dpkg-buildpackage: full upload (original source is included)
+Now running lintian...
+W: gorump source: debhelper-but-no-misc-depends gorump
+W: gorump source: dh-make-template-in-source debian/watch.ex
+W: gorump source: dh-make-template-in-source debian/prerm.ex
+W: gorump source: dh-make-template-in-source debian/preinst.ex
+W: gorump source: dh-make-template-in-source debian/postrm.ex
+W: gorump source: dh-make-template-in-source debian/postinst.ex
+W: gorump source: dh-make-template-in-source debian/menu.ex
+W: gorump source: dh-make-template-in-source debian/manpage.xml.ex
+W: gorump source: dh-make-template-in-source debian/manpage.sgml.ex
+W: gorump source: dh-make-template-in-source debian/manpage.1.ex
+W: gorump source: dh-make-template-in-source debian/init.d.ex
+W: gorump source: dh-make-template-in-source debian/gorump.doc-base.EX
+W: gorump source: dh-make-template-in-source debian/gorump.default.ex
+W: gorump source: dh-make-template-in-source debian/gorump.cron.d.ex
+W: gorump source: superfluous-clutter-in-homepage <deferpanic.com>
+W: gorump source: bad-homepage <deferpanic.com>
+W: gorump source: space-in-std-shortname-in-dep5-copyright <special license> (paragraph at line 5)
+W: gorump source: out-of-date-standards-version 3.9.5 (current is 3.9.6)
+Finished running lintian.
+Now signing changes and any dsc files...
+ signfile gorump_1.0-1.dsc Vladislav Sukhin <vsukhin@deferpanic.com>
+gpg: skipped "Vladislav Sukhin <vsukhin@deferpanic.com>": secret key not available
+gpg: /tmp/debsign.5B2iC0ig/gorump_1.0-1.dsc: clearsign failed: secret key not available
+debsign: gpg error occurred!  Aborting....

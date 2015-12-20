@@ -1,0 +1,28 @@
+Format: 1.8
+Date: Fri, 18 Dec 2015 21:53:53 +0000
+Source: gorump
+Binary: gorump
+Architecture: source
+Version: 1.0-1
+Distribution: unstable
+Urgency: low
+Maintainer: Vladislav Sukhin <vsukhin@deferpanic.com>
+Changed-By: Vladislav Sukhin <vsukhin@deferpanic.com>
+Description:
+ gorump     - The Go programming language with the Rumprun utilities for runnin
+Changes:
+ gorump (1.0-1) unstable; urgency=low
+ .
+   * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+Checksums-Sha1:
+ e5846310a8262bdc77710289171bbb674f6cbb9e 777 gorump_1.0-1.dsc
+ 32df5176e3fd657dc5c0706ca7cd0dd77c6fa8fd 168 gorump_1.0.orig.tar.xz
+ 74515f6d5df998756e31d605900a32488070f23b 9248 gorump_1.0-1.debian.tar.xz
+Checksums-Sha256:
+ 375b1f0a599d4bab26f45067abfe913bce3fa00bd10bf6d3defb1aa57c58013e 777 gorump_1.0-1.dsc
+ 8258123cb9232372d876291bc542890719bbf4ddd83d45bc1d704f2ac658e38e 168 gorump_1.0.orig.tar.xz
+ e7f5b13eeaf052ea45d63b24b6c34ec482ebbd930fbd02c96003f94d3168e312 9248 gorump_1.0-1.debian.tar.xz
+Files:
+ a3473d5a6dc8cae68b4eb331af0e2c92 777 devel optional gorump_1.0-1.dsc
+ fef84b6dc78e1b1a24fc5b0bb0f5a8c9 168 devel optional gorump_1.0.orig.tar.xz
+ 5b6a30e14ca79b6bc9dde5b241b6d970 9248 devel optional gorump_1.0-1.debian.tar.xz

@@ -1,0 +1,5 @@
+cd /home/$(whoami)
+wget https://s3.amazonaws.com/dp-gorump/gorump.tar.gz
+tar xzf gorump.tar.gz
+sudo mv -f go /usr/local
+
