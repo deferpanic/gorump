@@ -1,3 +1,5 @@
+on:
+  all_branches: true
 before_install:
   - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
   - sudo apt-get update -y
@@ -28,6 +30,8 @@ deploy:
       local-dir: $HOME/gopath/src/github.com/deferpanic/gorump/build
       acl: public_read
       detect_encoding: true
+      on:
+        all_branches: true     
     - provider: s3
       access_key_id: $ARTIFACTS_KEY
       secret_access_key: $ARTIFACTS_SECRET
@@ -37,3 +41,5 @@ deploy:
       local-dir: $HOME/gopath/src/github.com/deferpanic/gorump/rumprun/build
       acl: public_read
       detect_encoding: true    
+      on:
+        all_branches: true     
