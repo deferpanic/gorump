@@ -3,13 +3,15 @@ Section: devel
 Priority: optional
 Maintainer: Vladislav Sukhin <vsukhin@deferpanic.com>
 Build-Depends: debhelper (>= 9)
-Standards-Version: 3.9.5
-Homepage: <deferpanic.com>
+Standards-Version: 3.9.6
+Homepage: http://deferpanic.com
 #Vcs-Git: git://anonscm.debian.org/collab-maint/gorump.git
 #Vcs-Browser: http://anonscm.debian.org/?p=collab-maint/gorump.git;a=summary
 
 Package: gorump
 Architecture: amd64
-Depends: libxen-dev, g++-4.8, qemu-kvm, wget, git
-Description: The Go programming language with the Rumprun utilities for running on Rumprun.
-
+Depends: ${misc:Depends}, qemu-kvm, wget, git
+Description: Go programming language with the Rumprun utilities for running on Rumprun.
+ Both go and rumprun binaries are downloaded from AWS and installed 
+ by debian package script. It replaces current Go version and 
+ put Rumprun utilities to user home directory.

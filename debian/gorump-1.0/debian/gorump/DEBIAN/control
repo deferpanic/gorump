@@ -2,9 +2,11 @@ Package: gorump
 Version: 1.0-1
 Architecture: amd64
 Maintainer: Vladislav Sukhin <vsukhin@deferpanic.com>
-Installed-Size: 27
-Depends: libxen-dev, g++-4.8, qemu-kvm, wget, git
+Installed-Size: 26
+Depends: qemu-kvm, wget, git
 Section: devel
 Priority: optional
-Homepage: <deferpanic.com>
-Description: The Go programming language with the Rumprun utilities for running on Rumprun.
+Homepage: http://deferpanic.com
+Description: Go programming language with the Rumprun utilities for running on Rumprun.
+ Both go and rumprun binaries are downloaded from AWS and installed
+ by debian package script.

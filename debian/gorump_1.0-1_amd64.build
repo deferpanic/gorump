@@ -47,13 +47,11 @@ dpkg-genchanges: including full source code in upload
  dpkg-source --after-build gorump-1.0
 dpkg-buildpackage: full upload (original source is included)
 Now running lintian...
-W: gorump source: debhelper-but-no-misc-depends gorump
 W: gorump source: dh-make-template-in-source debian/watch.ex
 W: gorump source: dh-make-template-in-source debian/prerm.ex
 W: gorump source: dh-make-template-in-source debian/preinst.ex
 W: gorump source: dh-make-template-in-source debian/postrm.ex
 W: gorump source: dh-make-template-in-source debian/postinst.ex
-W: gorump source: maintainer-script-lacks-debhelper-token debian/postinst
 W: gorump source: dh-make-template-in-source debian/menu.ex
 W: gorump source: dh-make-template-in-source debian/manpage.xml.ex
 W: gorump source: dh-make-template-in-source debian/manpage.sgml.ex
@@ -62,23 +60,9 @@ W: gorump source: dh-make-template-in-source debian/init.d.ex
 W: gorump source: dh-make-template-in-source debian/gorump.doc-base.EX
 W: gorump source: dh-make-template-in-source debian/gorump.default.ex
 W: gorump source: dh-make-template-in-source debian/gorump.cron.d.ex
-W: gorump source: superfluous-clutter-in-homepage <deferpanic.com>
-W: gorump source: bad-homepage <deferpanic.com>
-W: gorump source: space-in-std-shortname-in-dep5-copyright <special license> (paragraph at line 5)
-W: gorump source: out-of-date-standards-version 3.9.5 (current is 3.9.6)
-W: gorump: wrong-bug-number-in-closes l3:#nnnn
-W: gorump: new-package-should-close-itp-bug
-E: gorump: changelog-is-dh_make-template
-E: gorump: helper-templates-in-copyright
-E: gorump: copyright-contains-dh_make-todo-boilerplate
-W: gorump: readme-debian-contains-debmake-template
-W: gorump: description-synopsis-starts-with-article
-E: gorump: extended-description-is-empty
-W: gorump: superfluous-clutter-in-homepage <deferpanic.com>
-W: gorump: bad-homepage <deferpanic.com>
 Finished running lintian.
 Now signing changes and any dsc files...
  signfile gorump_1.0-1.dsc Vladislav Sukhin <vsukhin@deferpanic.com>
 gpg: skipped "Vladislav Sukhin <vsukhin@deferpanic.com>": secret key not available
-gpg: /tmp/debsign.o5znMSVG/gorump_1.0-1.dsc: clearsign failed: secret key not available
+gpg: /tmp/debsign.qk6i7Mer/gorump_1.0-1.dsc: clearsign failed: secret key not available
 debsign: gpg error occurred!  Aborting....

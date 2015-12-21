@@ -1,6 +1,6 @@
 gorump for Debian
 -----------------
 
-<possible notes regarding this package - if none, delete this file>
+The Go programming language with the Rumprun utilities for running on Rumprun.
 
  -- Vladislav Sukhin <vsukhin@deferpanic.com>  Fri, 18 Dec 2015 21:53:53 +0000

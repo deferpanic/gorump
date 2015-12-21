@@ -1,5 +1,5 @@
 gorump (1.0-1) unstable; urgency=low
 
-  * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+  * Initial release (Closes: #1542)
 
  -- Vladislav Sukhin <vsukhin@deferpanic.com>  Fri, 18 Dec 2015 21:53:53 +0000
