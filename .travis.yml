@@ -11,6 +11,7 @@ script:
   - export CXX=g++-4.8
   - cd rumprun && git submodule update --init
   - CC=cc ./build-rr.sh hw 1> /dev/null
+  - mkdir $HOME/gopath/src/github.com/deferpanic/gorump/rumprun/build &&  tar -zcvf rumprun.tar.gz rumprun/ && mv rumprun.tar.gz $HOME/gopath/src/github.com/deferpanic/gorump/rumprun/build/.
   - cd $HOME/gopath/src/github.com/deferpanic/gorump/go/src && GOROOT_BOOTSTRAP=$GOROOT GOOS=netbsd GOARCH=amd64 ./make.bash
   - mkdir $HOME/gopath/src/github.com/deferpanic/gorump/build && cd $HOME/gopath/src/github.com/deferpanic/gorump && tar -zcvf gorump.tar.gz go/ && mv gorump.tar.gz build/.
 notifications:
@@ -18,12 +19,22 @@ notifications:
     recipients:
       - engineering@deferpanic.com
 deploy:
-    provider: s3
-    access_key_id: $ARTIFACTS_KEY
-    secret_access_key: $ARTIFACTS_SECRET
-    bucket: $ARTIFACTS_BUCKET
-    region: us-east-1
-    skip_cleanup: true
-    local-dir: $HOME/gopath/src/github.com/deferpanic/gorump/build
-    acl: public_read
-    detect_encoding: true
+    - provider: s3
+      access_key_id: $ARTIFACTS_KEY
+      secret_access_key: $ARTIFACTS_SECRET
+      bucket: $ARTIFACTS_BUCKET
+      region: us-east-1
+      skip_cleanup: true
+      local-dir: $HOME/gopath/src/github.com/deferpanic/gorump/build
+      acl: public_read
+      detect_encoding: true  
+    - provider: s3
+      access_key_id: $ARTIFACTS_KEY
+      secret_access_key: $ARTIFACTS_SECRET
+      bucket: $ARTIFACTS_BUCKET
+      region: us-east-1
+      skip_cleanup: true
+      local-dir: $HOME/gopath/src/github.com/deferpanic/gorump/rumprun/build
+      acl: public_read
+      detect_encoding: true
+
