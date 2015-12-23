@@ -29,6 +29,17 @@ See `examples` directory on how to build and use.
 
 ### Getting Started
 
+There are 2 ways you can install - from apt-get or by downloading the
+source and the rumprun source and building it yourself.
+
+#### Install from apt-get
+```
+sudo apt-get install software-properties-common
+sudo add-apt-repository ppa:engineering-s/gorump
+sudo apt-get update
+sudo apt-get install gorump
+```
+
 #### Install dependencies
 ```
 sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
@@ -83,7 +94,7 @@ sudo rm -rf /usr/local/go
 sudo ln -s /usr/local/go1.5-patched /usr/local/go
 ```
 
-#### Create your first Rumprun Hello World Webserver
+### Create your first Rumprun Hello World Webserver
 ```
 cd examples && make
 ```
