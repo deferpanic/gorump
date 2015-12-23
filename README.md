@@ -29,7 +29,20 @@ See `examples` directory on how to build and use.
 
 ### Getting Started
 
-#### Install dependencies
+There are 2 ways you can install - from apt-get or by downloading the
+source and the rumprun source and building it yourself.
+
+#### Install from apt-get
+```
+sudo apt-get install software-properties-common
+sudo add-apt-repository ppa:engineering-s/gorump
+sudo apt-get update
+sudo apt-get install gorump
+```
+
+#### Install from source
+
+##### Install dependencies
 ```
 sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
 sudo apt-get update -y
@@ -38,7 +51,7 @@ sudo apt-get install libxen-dev -y
 sudo apt-get install g++-4.8 -y
 ```
 
-#### Install Go to Bootstrap the Modified Go
+##### Install Go to Bootstrap the Modified Go
 ```
 wget https://storage.googleapis.com/golang/go1.5.2.linux-amd64.tar.gz
 tar xzf go1.5*
@@ -46,7 +59,7 @@ sudo mv go /usr/local/go1.5
 sudo ln -s /usr/local/go1.5 /usr/local/go
 ```
 
-#### Add Env variables to your ~/.bashrc
+##### Add Env variables to your ~/.bashrc
 ```
 export GOROOT=/usr/local/go
 export PATH=$PATH:$GOROOT/bin
@@ -54,7 +67,7 @@ export GOPATH=/home/$(whoami)/go
 export PATH=$PATH:$GOPATH/bin
 ```
 
-#### Download and Install Rumprun
+##### Download and Install Rumprun
 
 ```
 git clone https://github.com/rumpkernel/rumprun
@@ -63,19 +76,18 @@ git submodule update --init
 CC=cc ./build-rr.sh hw
 ```
 
-#### Add the Rumprun env to your path
+##### Add the Rumprun env to your path
 ```
 export PATH="${PATH}:/home/$(whoami)/rumprun/rumprun/bin"
 ```
 
-#### Build the Modified Go
+##### Build the Modified Go
 (from within this repository)
 ```
-cd go/src
-GOROOT_BOOTSTRAP=/usr/local/go GOOS=netbsd GOARCH=amd64 ./make.bash
+cd go/src GOROOT_BOOTSTRAP=/usr/local/go GOOS=netbsd GOARCH=amd64 ./make.bash
 ```
 
-#### Install the Modified Go
+##### Install the Modified Go
 (from within this repository)
 ```
 sudo cp -R go /usr/local/go1.5-patched
@@ -83,7 +95,7 @@ sudo rm -rf /usr/local/go
 sudo ln -s /usr/local/go1.5-patched /usr/local/go
 ```
 
-#### Create your first Rumprun Hello World Webserver
+### Create your first Rumprun Hello World Webserver
 ```
 cd examples && make
 ```
@@ -103,24 +115,3 @@ rumprun qemu -i -g '-nographic -vga none' -D 1234 -I t,vioif,'-net tap,ifname=ta
 ```
 curl http://10.181.181.180:3000/fast
 ```
-
-TODO
-====
-
-* make a debian package for the modified Go && host somewhere
-  -- do this as part of the build process
-
-* setup testing stub to run tests inside qemu
-* separate Rumprun from NetBSD (done that way because it avoided
-  duplicating everything for the initial experiment)
-* remove remaining instances of SYSCALL from `sys_netbsd_amd64.s`
-* add i386 support (if someone wants a hobby)
-* figure out what to do about TLS and goroutines (rump kernels and
-  bmk use TLS)
-* base maximum memory size on how much memory the Rumprun guest has,
-  not a hardcoded limit
-* fix arg{c,v} passing.  Go init wants them before we have them
-  available in Rumprun.  Also, remove the kludge_arg{c,v} hacks.
-* figure out a way to automatically launch a Go program with `main()`
-  as a guest instead of requiring editing the Go program to `//export`
-  something and writing a matching `.c` stub file
