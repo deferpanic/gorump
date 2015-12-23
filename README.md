@@ -40,7 +40,9 @@ sudo apt-get update
 sudo apt-get install gorump
 ```
 
-#### Install dependencies
+#### Install from source
+
+##### Install dependencies
 ```
 sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
 sudo apt-get update -y
@@ -49,7 +51,7 @@ sudo apt-get install libxen-dev -y
 sudo apt-get install g++-4.8 -y
 ```
 
-#### Install Go to Bootstrap the Modified Go
+##### Install Go to Bootstrap the Modified Go
 ```
 wget https://storage.googleapis.com/golang/go1.5.2.linux-amd64.tar.gz
 tar xzf go1.5*
@@ -57,7 +59,7 @@ sudo mv go /usr/local/go1.5
 sudo ln -s /usr/local/go1.5 /usr/local/go
 ```
 
-#### Add Env variables to your ~/.bashrc
+##### Add Env variables to your ~/.bashrc
 ```
 export GOROOT=/usr/local/go
 export PATH=$PATH:$GOROOT/bin
@@ -65,7 +67,7 @@ export GOPATH=/home/$(whoami)/go
 export PATH=$PATH:$GOPATH/bin
 ```
 
-#### Download and Install Rumprun
+##### Download and Install Rumprun
 
 ```
 git clone https://github.com/rumpkernel/rumprun
@@ -74,19 +76,18 @@ git submodule update --init
 CC=cc ./build-rr.sh hw
 ```
 
-#### Add the Rumprun env to your path
+##### Add the Rumprun env to your path
 ```
 export PATH="${PATH}:/home/$(whoami)/rumprun/rumprun/bin"
 ```
 
-#### Build the Modified Go
+##### Build the Modified Go
 (from within this repository)
 ```
-cd go/src
-GOROOT_BOOTSTRAP=/usr/local/go GOOS=netbsd GOARCH=amd64 ./make.bash
+cd go/src GOROOT_BOOTSTRAP=/usr/local/go GOOS=netbsd GOARCH=amd64 ./make.bash
 ```
 
-#### Install the Modified Go
+##### Install the Modified Go
 (from within this repository)
 ```
 sudo cp -R go /usr/local/go1.5-patched
