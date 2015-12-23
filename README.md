@@ -115,24 +115,3 @@ rumprun qemu -i -g '-nographic -vga none' -D 1234 -I t,vioif,'-net tap,ifname=ta
 ```
 curl http://10.181.181.180:3000/fast
 ```
-
-TODO
-====
-
-* make a debian package for the modified Go && host somewhere
-  -- do this as part of the build process
-
-* setup testing stub to run tests inside qemu
-* separate Rumprun from NetBSD (done that way because it avoided
-  duplicating everything for the initial experiment)
-* remove remaining instances of SYSCALL from `sys_netbsd_amd64.s`
-* add i386 support (if someone wants a hobby)
-* figure out what to do about TLS and goroutines (rump kernels and
-  bmk use TLS)
-* base maximum memory size on how much memory the Rumprun guest has,
-  not a hardcoded limit
-* fix arg{c,v} passing.  Go init wants them before we have them
-  available in Rumprun.  Also, remove the kludge_arg{c,v} hacks.
-* figure out a way to automatically launch a Go program with `main()`
-  as a guest instead of requiring editing the Go program to `//export`
-  something and writing a matching `.c` stub file
