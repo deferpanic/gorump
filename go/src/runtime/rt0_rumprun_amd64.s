@@ -4,18 +4,18 @@
 
 #include "textflag.h"
 
-TEXT _rt0_amd64_netbsd(SB),NOSPLIT,$-8
+TEXT _rt0_amd64_rumprun(SB),NOSPLIT,$-8
 	LEAQ	8(SP), SI // argv
 	MOVQ	0(SP), DI // argc
 	MOVQ	$main(SB), AX
 	JMP	AX
 
-TEXT _rt0_amd64_netbsd_lib(SB),NOSPLIT,$40
+TEXT _rt0_amd64_rumprun_lib(SB),NOSPLIT,$40
 	// Create a new thread to do the runtime initialization and return.
 	MOVQ    _cgo_sys_thread_create(SB), AX
 	TESTQ   AX, AX
 	JZ      nocgo
-	MOVQ    $_rt0_amd64_netbsd_lib_go(SB), DI
+	MOVQ    $_rt0_amd64_rumprun_lib_go(SB), DI
 	MOVQ    $0, SI
 	CALL    AX
 	RET
@@ -24,7 +24,7 @@ nocgo:
 	// XXX: should just panic here
 	RET
 
-TEXT _rt0_amd64_netbsd_lib_go(SB),NOSPLIT,$0
+TEXT _rt0_amd64_rumprun_lib_go(SB),NOSPLIT,$0
 	// XXX: we need a better way to pass argc/argv, but they're not
 	// available on Rumprun when this is called, so we leave it to
 	// the client to hardcode/fake
