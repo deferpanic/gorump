@@ -160,9 +160,9 @@ const (
 	// try to be conservative here, and only ask for a 2GB heap.
 
 	// XXX: use goos_netbsd really as good_rumprun
-	_MHeapMap_TotalBits = (_64bit*goos_windows)*35 + (1-goos_netbsd)*(_64bit*(1-goos_windows)*(1-goos_darwin*goarch_arm64))*39 + goos_darwin*goarch_arm64*31 + (1-_64bit)*32*(1-goos_netbsd) + 21*goos_netbsd
+	_MHeapMap_TotalBits = (_64bit*goos_windows)*35 + (1-goos_rumprun)*(_64bit*(1-goos_windows)*(1-goos_darwin*goarch_arm64))*39 + goos_darwin*goarch_arm64*31 + (1-_64bit)*32*(1-goos_rumprun) + 21*goos_rumprun
 
-	_MHeapMap_Bits      = _MHeapMap_TotalBits - _PageShift
+	_MHeapMap_Bits = _MHeapMap_TotalBits - _PageShift
 
 	_MaxMem = uintptr(1<<_MHeapMap_TotalBits - 1)
 

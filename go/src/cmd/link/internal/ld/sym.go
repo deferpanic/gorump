@@ -57,6 +57,7 @@ var headers = []struct {
 	{"netbsd", obj.Hnetbsd},
 	{"openbsd", obj.Hopenbsd},
 	{"plan9", obj.Hplan9},
+	{"rumprun", obj.Hnetbsd},
 	{"solaris", obj.Hsolaris},
 	{"windows", obj.Hwindows},
 	{"windowsgui", obj.Hwindows},

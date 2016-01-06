@@ -6,7 +6,7 @@
 // We need a fast system call to provoke the race,
 // and Close(-1) is nearly universally fast.
 
-// +build darwin dragonfly freebsd linux netbsd openbsd plan9
+// +build darwin dragonfly freebsd linux netbsd openbsd plan9 rumprun
 
 package runtime_test
 
