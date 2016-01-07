@@ -84,7 +84,7 @@ export PATH="${PATH}:/home/$(whoami)/rumprun/rumprun/bin"
 ##### Build the Modified Go
 (from within this repository)
 ```
-cd go/src GOROOT_BOOTSTRAP=/usr/local/go GOOS=netbsd GOARCH=amd64 ./make.bash
+cd go/src GOROOT_BOOTSTRAP=/usr/local/go GOOS=rumprun GOARCH=amd64 ./make.bash
 ```
 
 ##### Install the Modified Go

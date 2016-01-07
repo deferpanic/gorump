@@ -6,6 +6,7 @@
 // +build !dragonfly
 // +build !freebsd
 // +build !netbsd
+// +build !rumprun
 // +build !openbsd
 // +build !solaris
 

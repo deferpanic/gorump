@@ -13,5 +13,6 @@ const goos_nacl = 1
 const goos_netbsd = 0
 const goos_openbsd = 0
 const goos_plan9 = 0
+const goos_rumprun = 0
 const goos_solaris = 0
 const goos_windows = 0

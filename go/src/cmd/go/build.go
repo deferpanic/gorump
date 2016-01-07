@@ -3055,7 +3055,7 @@ func (b *builder) cgo(p *Package, cgoExe, obj string, pcCFLAGS, pcLDFLAGS, cgofi
 
 	// XXX: to allow building c-archives in a Rumprun environment
 	// (cross-only?) where we don't do dynamic stuff.
-	if goos == "netbsd" {
+	if goos == "rumprun" {
 		return outGo, outObj, nil
 	}
 
