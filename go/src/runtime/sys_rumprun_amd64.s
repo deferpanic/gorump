@@ -14,12 +14,12 @@
 // with SYSCALL, it's a sign that it hasn't been converted.
 
 // We do the backing syscalls two ways:
-// 1) indirectly via rump_syscall 2) directly calling the syscall handler
+// 1) directly calling the syscall handler
+// 2) indirectly via calling the libc-level syscall wrapper
 //
-// "2" is a bit easier and less error prone to type, but it "hides" the
-// errno behind TLS.  Therefore, when we need errno, we need to "1".
-// Also, in case a call is not support by the rump kernel (e.g. mmap),
-// we always use "2".
+// For historical reasons, some calls use "2".  The new way
+// is to do "1" with the eventual target of not having to bring
+// the libc layer along for the ride.
 
 // int32 lwp_create(void *context, uintptr flags, void *lwpid)
 // XXXTODO
@@ -220,32 +220,51 @@ TEXT runtime·sigaction(SB),NOSPLIT,$-8
 TEXT runtime·sigtramp(SB),NOSPLIT,$64
 	RET
 
-TEXT runtime·mmap(SB),NOSPLIT,$0
-	MOVQ	addr+0(FP), DI		// arg 1 - addr
-	MOVQ	n+8(FP), SI		// arg 2 - len
-	MOVL	prot+16(FP), DX		// arg 3 - prot
-	MOVL	flags+20(FP), CX	// arg 4 - flags
-	MOVL	fd+24(FP), R8		// arg 5 - fd
-	MOVL	off+28(FP), R9
-	SUBQ	$16, SP
-	MOVQ	R9, 8(SP)		// arg 7 - offset (passed on stack)
-	MOVQ	$0, R9			// arg 6 - pad
-	LEAQ	_mmap(SB), AX
+// for mmap we need to rearrange the args, they are packed in the
+// caller's stack frame in a fashion unsuitable for us
+TEXT runtime·mmap(SB),NOSPLIT,$72	// args+retval = 56+16 = 72
+	MOVQ	$197, DI		// mmap
+	MOVQ	SP, SI			// args
+	MOVQ	addr+0(FP), DX		// .....
+	MOVQ	DX, 0(SP)
+	MOVQ	len+8(FP), DX
+	MOVQ	DX, 8(SP)
+	MOVL	prot+16(FP), DX
+	MOVQ	DX, 16(SP)
+	MOVL	flags+20(FP), DX
+	MOVQ	DX, 24(SP)
+	MOVL	fd+24(FP), DX
+	MOVQ	DX, 32(SP)
+	XORQ	DX, DX			// pad for 64bit arg
+	MOVQ	DX, 40(SP)
+	MOVL	off+28(FP), DX		// offset from Go is 32bit???
+	MOVQ	DX, 48(SP)
+	MOVQ	$0, DX			// dlen -- ignored
+	MOVQ	SP, CX			// retval[2]
+	ADDQ	$56, CX			// retval[2]
+	LEAQ	rump_syscall(SB), AX
 	CALL	AX
-	ADDQ	$16, SP
+	TESTQ	AX, AX
+	JNE	err
+	MOVQ	56(SP), AX		// errno is ignored, clobber with rv
 	MOVQ	AX, ret+32(FP)
 	RET
+ err:
+	MOVQ	$-1, ret+32(FP)
+	RET
 
-TEXT runtime·munmap(SB),NOSPLIT,$0
-	MOVQ	addr+0(FP), DI		// arg 1 - addr
-	MOVQ	n+8(FP), SI		// arg 2 - len
-	LEAQ	munmap(SB), AX
+TEXT runtime·munmap(SB),NOSPLIT,$16
+	MOVQ	$73, DI
+	MOVQ	SP, SI
+	ADDQ	$0x18, SI
+	MOVQ	$0, DX
+	MOVQ	SP, CX
+	LEAQ	rump_syscall(SB), AX
 	CALL	AX
 	TESTQ	AX, AX
 	JE	2(PC)
 	MOVL	$0xf1, 0xf1		// crash
 	RET
-
 
 // rumprun does not have mad-vice
 TEXT runtime·madvise(SB),NOSPLIT,$0
