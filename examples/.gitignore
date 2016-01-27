@@ -1,2 +1,4 @@
 httpd.bin
 hello.bin
+hello.h
+httpd.h
