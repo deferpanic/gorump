@@ -1,3 +1,12 @@
+Available examples
+==================
+
+There are a few examples available currently:
+
+- `hello_world` - simplest possible example, compiling a hello-world app
+- `httpd` - a more complex example running a go-builtin HTTP server
+- `multiple_go` - demonstrating use of multiple .go files
+
 Building Go itself
 ==================
 
