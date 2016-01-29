@@ -1,2 +1,3 @@
 go/bin
 go/pkg
+*.sw[o|p]
