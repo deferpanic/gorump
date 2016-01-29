@@ -6,6 +6,7 @@ There are a few examples available currently:
 - `hello_world` - simplest possible example, compiling a hello-world app
 - `httpd` - a more complex example running a go-builtin HTTP server
 - `multiple_go` - demonstrating use of multiple .go files
+- `nanomsg` - messaging using nanomsg messaging library
 
 Building Go itself
 ==================
