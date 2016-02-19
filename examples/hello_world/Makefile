@@ -1,4 +1,5 @@
 all: hello.bin
+xen: hello-xen.bin
 
 %.a: %.go
 	CC=x86_64-rumprun-netbsd-gcc CGO_ENABLED=1 GOOS=rumprun ../../go/bin/go build -buildmode=c-archive -v -a -x $<
@@ -9,5 +10,8 @@ all: hello.bin
 %.bin: %.pseudo
 	rumprun-bake hw_virtio $@ $<
 
+%-xen.bin: %.pseudo
+	rumprun-bake xen_pv $@ $<
+
 clean:
-	rm -f hello.a hello.h hello hello.bin
+	rm -f hello*.a hello*.h hello hello-xen hello*.bin 
