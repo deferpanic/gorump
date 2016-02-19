@@ -84,34 +84,68 @@ export PATH="${PATH}:/home/$(whoami)/rumprun/rumprun/bin"
 ##### Build the Modified Go
 (from within this repository)
 ```
-cd go/src GOROOT_BOOTSTRAP=/usr/local/go GOOS=rumprun GOARCH=amd64 ./make.bash
+cd go/src && GOROOT_BOOTSTRAP=/usr/local/go GOOS=rumprun GOARCH=amd64 ./make.bash
 ```
 
 ##### Install the Modified Go
 (from within this repository)
 ```
-sudo cp -R go /usr/local/go1.5-patched
+sudo cp -R ../../go /usr/local/go1.5-patched
 sudo rm -rf /usr/local/go
 sudo ln -s /usr/local/go1.5-patched /usr/local/go
 ```
 
 ### Create your first Rumprun Hello World Webserver
+
 ```
-cd examples && make
+cd examples/httpd && make
 ```
 
-#### Add Networking to your Image
+or 
+
 ```
-sudo ip tuntap add tap0 mode tap
-sudo ifconfig tap0 inet 10.181.181.181 up
+cd examples/httpd && make xen
 ```
 
 #### Run the Rumprun kernel
+##### HW/KVM
+
+- Add Networking to your Image 
+
+```
+sudo ip tuntap add tap0 mode tap
+sudo ifconfig tap0 inet 10.181.181.181/24 up
+```
+
+- Run Your Hello World Webserver
+
 ```
 rumprun qemu -i -g '-nographic -vga none' -D 1234 -I t,vioif,'-net tap,ifname=tap0,script=no' -W t,inet,static,10.181.181.180/24 httpd.bin
 ```
 
-#### Test Your Go Rumprun server
+- Test Your Hello World Webserver
 ```
 curl http://10.181.181.180:3000/fast
+```
+
+##### XEN
+
+- Get IP of your XEN bridge network interface, by default it's `xenbr0`
+```
+ifconfig xenbr0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1  }'
+```
+
+e.g. output
+```
+192.168.58.2
+```
+
+Choose free IP address from the subnet, in our example we'll take `192.168.58.3` and start Hello World Webserver
+```
+rumprun xen -i -n inet,static,192.168.58.3/24 httpd-xen.bin
+```
+
+- Test Your Hello World Webserver 
+```
+curl http://192.168.58.3:3000/fast
 ```
