@@ -67,7 +67,7 @@ func semasleep(ns int64) int32 {
 
 		// Sleep until unparked by semawakeup or timeout.
 		ret := lwp_park(tsp, 0, unsafe.Pointer(&_g_.m.waitsemacount), nil)
-		if ret == _ETIMEDOUT {
+		if ret == _ETIMEDOUT || ret == -1 {
 			return -1
 		}
 	}
