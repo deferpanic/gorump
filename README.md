@@ -110,6 +110,8 @@ cd examples/httpd && make xen
 #### Run the Rumprun kernel
 ##### HW/KVM
 
+Note: If you are not using rumprun to run your image the minimum memory required is north of 32Mb. We suggest 64Mb. If you do use rumprun the default is 64 so nothing to be concerned with.
+
 - Add Networking to your Image 
 
 ```
