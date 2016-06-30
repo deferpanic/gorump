@@ -84,7 +84,7 @@ export PATH="${PATH}:/home/$(whoami)/rumprun/rumprun/bin"
 ##### Build the Modified Go
 (from within this repository)
 ```
-cd go/src && GOROOT_BOOTSTRAP=/usr/local/go GOOS=rumprun GOARCH=amd64 ./make.bash
+cd go/src && CGO_ENABLED=0 GOROOT_BOOTSTRAP=/usr/local/go GOOS=rumprun GOARCH=amd64 ./make.bash
 ```
 
 ##### Install the Modified Go
@@ -109,6 +109,8 @@ cd examples/httpd && make xen
 
 #### Run the Rumprun kernel
 ##### HW/KVM
+
+Note: If you are not using rumprun to run your image the minimum memory required is north of 32Mb. We suggest 64Mb. If you do use rumprun the default is 64 so nothing to be concerned with.
 
 - Add Networking to your Image 
 
@@ -148,4 +150,15 @@ rumprun xen -i -n inet,static,192.168.58.3/24 httpd-xen.bin
 - Test Your Hello World Webserver 
 ```
 curl http://192.168.58.3:3000/fast
+```
+
+##### Hacking Instructions
+
+```
+go tool dist list
+```
+
+logging options w/qemu:
+```
+-serial file:/tmp/blah -nographic -vga none
 ```
