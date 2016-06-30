@@ -12,8 +12,13 @@ surface for security.
 
 We believe unikernels are the future of infrastructure.
 
-This repo is based on Go the source 1.5.1 stable c7d78ba4df574b5f9a9bb5d17505f40c4d89b81c
-downloaded at https://storage.googleapis.com/golang/go1.5.1.src.tar.gz .
+This repo contains 2 builds:
+
+1.7beta2: 88840e78905bdff7c8e408385182b4f77e8bdd062cac5c0c6382630588d426c7
+https://storage.googleapis.com/golang/go1.7beta2.src.tar.gz
+
+1.5.1: c7d78ba4df574b5f9a9bb5d17505f40c4d89b81c ??
+https://storage.googleapis.com/golang/go1.5.1.src.tar.gz 
 
 On top, the NetBSD platform has been modified to support Rumprun instead.
 To generate a patch: `git diff go-1-5-1-upstream master`.
@@ -43,20 +48,28 @@ sudo apt-get install gorump
 #### Install from source
 
 ##### Install dependencies
+
 ```
 sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
 sudo apt-get update -y
 sudo apt-get install qemu-kvm -y
-sudo apt-get install libxen-dev -y
 sudo apt-get install g++-4.8 -y
 ```
 
-##### Install Go to Bootstrap the Modified Go
+or optionally install xen:
 ```
-wget https://storage.googleapis.com/golang/go1.5.2.linux-amd64.tar.gz
-tar xzf go1.5*
-sudo mv go /usr/local/go1.5
-sudo ln -s /usr/local/go1.5 /usr/local/go
+sudo apt-get install libxen-dev -y
+```
+
+##### Install Go to Bootstrap the Modified Go
+
+1.6:
+
+```
+wget https://storage.googleapis.com/golang/go1.6.2.linux-amd64.tar.gz
+tar xzf go1.6*
+sudo mv go /usr/local/go1.6
+sudo ln -s /usr/local/go1.6 /usr/local/go
 ```
 
 ##### Add Env variables to your ~/.bashrc
@@ -90,9 +103,9 @@ cd go/src && CGO_ENABLED=0 GOROOT_BOOTSTRAP=/usr/local/go GOOS=rumprun GOARCH=am
 ##### Install the Modified Go
 (from within this repository)
 ```
-sudo cp -R ../../go /usr/local/go1.5-patched
+sudo cp -R ../../go /usr/local/go1.7-patched
 sudo rm -rf /usr/local/go
-sudo ln -s /usr/local/go1.5-patched /usr/local/go
+sudo ln -s /usr/local/go1.7-patched /usr/local/go
 ```
 
 ### Create your first Rumprun Hello World Webserver
@@ -114,6 +127,15 @@ Note: If you are not using rumprun to run your image the minimum memory required
 
 - Add Networking to your Image 
 
+via usermode (if you have a wireless only device do this otherwise you have to do the nat hack)
+
+```
+system-x86_64 -m 128 -net nic,model=virtio \
+	-net user,hostfwd=tcp::3000-:3000 -kernel httpd.bin \
+	-append "{ \"net\" : { \"if\":\"vioif0\",,\"type\":\"inet\",,\"method\":\"dhcp\",,},, \"cmdline\": \"http.bin\"}"
+```
+
+via tap:
 ```
 sudo ip tuntap add tap0 mode tap
 sudo ifconfig tap0 inet 10.181.181.181/24 up
