@@ -8,7 +8,7 @@ Rumprun is a special project because it allows you to run your Go apps
 unmodified directly on the hypervisor of your choice such as KVM or Xen.
 
 This allows faster boot times, smaller images and a much smaller attack
-surface for security.
+surface for security - not to mention it removes every hacker's favorite syscall - fork.
 
 We believe unikernels are the future of infrastructure.
 
