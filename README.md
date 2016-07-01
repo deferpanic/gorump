@@ -20,6 +20,8 @@ https://storage.googleapis.com/golang/go1.7beta2.src.tar.gz
 1.5.1: c7d78ba4df574b5f9a9bb5d17505f40c4d89b81c ??
 https://storage.googleapis.com/golang/go1.5.1.src.tar.gz 
 
+1.7 still needs a little bit of love in terms of the HTTP support but is booting. 1.5.1 is the 'stable' (hah!) port.
+
 On top, the NetBSD platform has been modified to support Rumprun instead.
 To generate a patch: `git diff go-1-5-1-upstream master`.
 
