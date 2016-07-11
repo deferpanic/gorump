@@ -2,7 +2,7 @@ all: hello.bin
 xen: hello-xen.bin
 
 %.a: %.go
-	CC=x86_64-rumprun-netbsd-gcc CGO_ENABLED=1 GOOS=rumprun ../../go/bin/go build -buildmode=c-archive -v -a -x $<
+	CC=x86_64-rumprun-netbsd-gcc CGO_ENABLED=1 GOOS=rumprun ../../1.7/go/bin/go build -buildmode=c-archive -v -a -x $<
 
 %.pseudo: %.a
 	RUMPRUN_STUBLINK=succeed x86_64-rumprun-netbsd-gcc -g -o $@ $(basename $@).c $<

@@ -11,11 +11,12 @@ There are a few examples available currently:
 Building Go itself
 ==================
 
-First of all, you need Go 1.4 to bootstrap Go 1.5.  So get and build that,
-and then in `go/src` run:
+First of all, you need a Go installed. So get and build that, and then in `go/src` run:
+
+We disable CGO for the build process because of a known incompability with the linker. 
 
 ```
-GOROOT_BOOTSTRAP=/path/to/go1.4 GOOS=netbsd GOARCH=amd64 ./make.bash
+CGO_ENABLED=0 GOROOT_BOOTSTRAP=/usr/local/go1.6 GOOS=rumprun GOARCH=amd64 ./make.bash
 ```
 
 Building applications
@@ -44,13 +45,8 @@ x86_64-rumprun-netbsd-gcc -g -o hello hello.c ./hello.a
 rumprun-bake hw_virtio hello.bin hello
 ```
 
-If all went well, you should be able to Rumprun the result:
+If all went well, you should be able to run it via qemu:
 
 ```
-rumprun kvm -i hello.bin
+system-x86_64 -m 64 -kernel hello.bin
 ```
-
-If it doesn't work
-==================
-
-Support for now is pre-alpha, but will hopefully improve in the next few days.
