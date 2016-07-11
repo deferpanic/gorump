@@ -327,6 +327,9 @@ TEXT runtime·kevent(SB),NOSPLIT,$16
 	MOVQ	$435, DI		// kevent
 	MOVQ	SP, SI			// args
 	ADDQ	$0x18, SI		// args
+	MOVL	$0, 0x04(SI)
+	MOVL	$0, 0x14(SI)
+	MOVL	$0, 0x24(SI)
 	MOVQ	$0, DX			// dlen -- ignored
 	MOVQ	SP, CX			// retval
 	LEAQ	rump_syscall(SB), AX
