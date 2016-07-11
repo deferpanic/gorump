@@ -1,201 +1,0 @@
-!<arch>
-__.PKGDEF       0           0     0     644     11455     `
-go object linux amd64 go1.5.1 X:none
-build id "618a6d35b26e56f87db958e60f51f6052c684f64"
-
-$$
-package format
-	import runtime "runtime"
-	import bytes "bytes"
-	import ast "go/ast"
-	import token "go/token"
-	import strings "strings"
-	import parser "go/parser"
-	import printer "go/printer"
-	type @"go/token".Pos int
-	func (@"go/token".pÂ·2 @"go/token".Pos) IsValid () (? bool) { return @"go/token".pÂ·2 != @"go/token".Pos(0x0) }
-	type @"go/ast".Comment struct { Slash @"go/token".Pos; Text string }
-	func (@"go/ast".cÂ·2 *@"go/ast".Comment "esc:0x1") End () (? @"go/token".Pos) { return @"go/token".Pos(int(@"go/ast".cÂ·2.Slash) + len(@"go/ast".cÂ·2.Text)) }
-	func (@"go/ast".cÂ·2 *@"go/ast".Comment "esc:0x1") Pos () (? @"go/token".Pos) { return @"go/ast".cÂ·2.Slash }
-	type @"go/ast".CommentGroup struct { List []*@"go/ast".Comment }
-	func (@"go/ast".gÂ·2 *@"go/ast".CommentGroup "esc:0x1") End () (? @"go/token".Pos) { return @"go/ast".gÂ·2.List[len(@"go/ast".gÂ·2.List) - 0x1].End() }
-	func (@"go/ast".gÂ·2 *@"go/ast".CommentGroup "esc:0x1") Pos () (? @"go/token".Pos) { return @"go/ast".gÂ·2.List[0x0].Pos() }
-	func (@"go/ast".gÂ·2 *@"go/ast".CommentGroup "esc:0x9") Text () (? string)
-	type @"go/ast".ObjKind int
-	func (@"go/ast".kindÂ·2 @"go/ast".ObjKind) String () (? string) { return @"go/ast".objKindStrings[@"go/ast".kindÂ·2] }
-	type @"go/ast".Object struct { Kind @"go/ast".ObjKind; Name string; Decl interface {}; Data interface {}; Type interface {} }
-	func (@"go/ast".objÂ·2 *@"go/ast".Object "esc:0x1") Pos () (? @"go/token".Pos)
-	type @"go/ast".Ident struct { NamePos @"go/token".Pos; Name string; Obj *@"go/ast".Object }
-	func (@"go/ast".xÂ·2 *@"go/ast".Ident "esc:0x1") End () (? @"go/token".Pos) { return @"go/token".Pos(int(@"go/ast".xÂ·2.NamePos) + len(@"go/ast".xÂ·2.Name)) }
-	func (@"go/ast".idÂ·2 *@"go/ast".Ident "esc:0x1") IsExported () (? bool)
-	func (@"go/ast".xÂ·2 *@"go/ast".Ident "esc:0x1") Pos () (? @"go/token".Pos) { return @"go/ast".xÂ·2.NamePos }
-	func (@"go/ast".idÂ·2 *@"go/ast".Ident "esc:0x22") String () (? string) { if @"go/ast".idÂ·2 != nil { return @"go/ast".idÂ·2.Name }; return "<nil>" }
-	func (? *@"go/ast".Ident) @"go/ast".exprNode () {  }
-	type @"go/ast".Decl interface { End() (? @"go/token".Pos); Pos() (? @"go/token".Pos); @"go/ast".declNode() }
-	type @"go/ast".Scope struct { Outer *@"go/ast".Scope; Objects map[string]*@"go/ast".Object }
-	func (@"go/ast".sÂ·2 *@"go/ast".Scope "esc:0x1") Insert (@"go/ast".objÂ·3 *@"go/ast".Object) (@"go/ast".altÂ·1 *@"go/ast".Object) { if @"go/ast".altÂ·1 = @"go/ast".sÂ·2.Objects[@"go/ast".objÂ·3.Name]; @"go/ast".altÂ·1 == nil { @"go/ast".sÂ·2.Objects[@"go/ast".objÂ·3.Name] = @"go/ast".objÂ·3 }; return  }
-	func (@"go/ast".sÂ·2 *@"go/ast".Scope "esc:0x1") Lookup (@"go/ast".nameÂ·3 string "esc:0x1") (? *@"go/ast".Object) { return @"go/ast".sÂ·2.Objects[@"go/ast".nameÂ·3] }
-	func (@"go/ast".sÂ·2 *@"go/ast".Scope) String () (? string)
-	type @"go/token".Token int
-	func (@"go/token".tokÂ·2 @"go/token".Token) IsKeyword () (? bool) { return @"go/token".Token(0x3c) < @"go/token".tokÂ·2 && @"go/token".tokÂ·2 < @"go/token".Token(0x56) }
-	func (@"go/token".tokÂ·2 @"go/token".Token) IsLiteral () (? bool) { return @"go/token".Token(0x3) < @"go/token".tokÂ·2 && @"go/token".tokÂ·2 < @"go/token".Token(0xa) }
-	func (@"go/token".tokÂ·2 @"go/token".Token) IsOperator () (? bool) { return @"go/token".Token(0xb) < @"go/token".tokÂ·2 && @"go/token".tokÂ·2 < @"go/token".Token(0x3b) }
-	func (@"go/token".opÂ·2 @"go/token".Token) Precedence () (? int)
-	func (@"go/token".tokÂ·2 @"go/token".Token) String () (? string)
-	type @"go/ast".BasicLit struct { ValuePos @"go/token".Pos; Kind @"go/token".Token; Value string }
-	func (@"go/ast".xÂ·2 *@"go/ast".BasicLit "esc:0x1") End () (? @"go/token".Pos) { return @"go/token".Pos(int(@"go/ast".xÂ·2.ValuePos) + len(@"go/ast".xÂ·2.Value)) }
-	func (@"go/ast".xÂ·2 *@"go/ast".BasicLit "esc:0x1") Pos () (? @"go/token".Pos) { return @"go/ast".xÂ·2.ValuePos }
-	func (? *@"go/ast".BasicLit) @"go/ast".exprNode () {  }
-	type @"go/ast".ImportSpec struct { Doc *@"go/ast".CommentGroup; Name *@"go/ast".Ident; Path *@"go/ast".BasicLit; Comment *@"go/ast".CommentGroup; EndPos @"go/token".Pos }
-	func (@"go/ast".sÂ·2 *@"go/ast".ImportSpec "esc:0x1") End () (? @"go/token".Pos) { if @"go/ast".sÂ·2.EndPos != @"go/token".Pos(0x0) { return @"go/ast".sÂ·2.EndPos }; return @"go/ast".sÂ·2.Path.End() }
-	func (@"go/ast".sÂ·2 *@"go/ast".ImportSpec "esc:0x1") Pos () (? @"go/token".Pos) { if @"go/ast".sÂ·2.Name != nil { return @"go/ast".sÂ·2.Name.Pos() }; return @"go/ast".sÂ·2.Path.Pos() }
-	func (? *@"go/ast".ImportSpec) @"go/ast".specNode () {  }
-	type @"go/ast".File struct { Doc *@"go/ast".CommentGroup; Package @"go/token".Pos; Name *@"go/ast".Ident; Decls []@"go/ast".Decl; Scope *@"go/ast".Scope; Imports []*@"go/ast".ImportSpec; Unresolved []*@"go/ast".Ident; Comments []*@"go/ast".CommentGroup }
-	func (@"go/ast".fÂ·2 *@"go/ast".File "esc:0x9") End () (? @"go/token".Pos)
-	func (@"go/ast".fÂ·2 *@"go/ast".File "esc:0x1") Pos () (? @"go/token".Pos) { return @"go/ast".fÂ·2.Package }
-	import sync "sync" // indirect
-	type @"sync".Mutex struct { @"sync".state int32; @"sync".sema uint32 }
-	func (@"sync".mÂ·1 *@"sync".Mutex) Lock ()
-	func (@"sync".mÂ·1 *@"sync".Mutex) Unlock ()
-	type @"sync".Locker interface { Lock(); Unlock() }
-	type @"sync".RWMutex struct { @"sync".w @"sync".Mutex; @"sync".writerSem uint32; @"sync".readerSem uint32; @"sync".readerCount int32; @"sync".readerWait int32 }
-	func (@"sync".rwÂ·1 *@"sync".RWMutex) Lock ()
-	func (@"sync".rwÂ·1 *@"sync".RWMutex) RLock ()
-	func (@"sync".rwÂ·2 *@"sync".RWMutex "esc:0x12") RLocker () (? @"sync".Locker) { return (*@"sync".rlocker)(@"sync".rwÂ·2) }
-	func (@"sync".rwÂ·1 *@"sync".RWMutex) RUnlock ()
-	func (@"sync".rwÂ·1 *@"sync".RWMutex) Unlock ()
-	type @"go/token".lineInfo struct { Offset int; Filename string; Line int }
-	type @"go/token".Position struct { Filename string; Offset int; Line int; Column int }
-	func (@"go/token".posÂ·2 *@"go/token".Position "esc:0x1") IsValid () (? bool) { return @"go/token".posÂ·2.Line > 0x0 }
-	func (@"go/token".posÂ·2 @"go/token".Position "esc:0x12") String () (? string)
-	type @"go/token".File struct { @"go/token".set *@"go/token".FileSet; @"go/token".name string; @"go/token".base int; @"go/token".size int; @"go/token".lines []int; @"go/token".infos []@"go/token".lineInfo }
-	func (@"go/token".fÂ·1 *@"go/token".File "esc:0x9") AddLine (@"go/token".offsetÂ·2 int)
-	func (@"go/token".fÂ·1 *@"go/token".File "esc:0x9") AddLineInfo (@"go/token".offsetÂ·2 int, @"go/token".filenameÂ·3 string, @"go/token".lineÂ·4 int)
-	func (@"go/token".fÂ·2 *@"go/token".File "esc:0x1") Base () (? int) { return @"go/token".fÂ·2.@"go/token".base }
-	func (@"go/token".fÂ·2 *@"go/token".File "esc:0x1") Line (@"go/token".pÂ·3 @"go/token".Pos) (? int)
-	func (@"go/token".fÂ·2 *@"go/token".File "esc:0x9") LineCount () (? int)
-	func (@"go/token".fÂ·1 *@"go/token".File "esc:0x9") MergeLine (@"go/token".lineÂ·2 int)
-	func (@"go/token".fÂ·2 *@"go/token".File "esc:0x22") Name () (? string) { return @"go/token".fÂ·2.@"go/token".name }
-	func (@"go/token".fÂ·2 *@"go/token".File "esc:0x1") Offset (@"go/token".pÂ·3 @"go/token".Pos) (? int)
-	func (@"go/token".fÂ·2 *@"go/token".File "esc:0x1") Pos (@"go/token".offsetÂ·3 int) (? @"go/token".Pos)
-	func (@"go/token".fÂ·2 *@"go/token".File "esc:0x22") Position (@"go/token".pÂ·3 @"go/token".Pos) (@"go/token".posÂ·1 @"go/token".Position)
-	func (@"go/token".fÂ·2 *@"go/token".File "esc:0x22") PositionFor (@"go/token".pÂ·3 @"go/token".Pos, @"go/token".adjustedÂ·4 bool) (@"go/token".posÂ·1 @"go/token".Position)
-	func (@"go/token".fÂ·2 *@"go/token".File "esc:0x9") SetLines (@"go/token".linesÂ·3 []int) (? bool)
-	func (@"go/token".fÂ·1 *@"go/token".File "esc:0x9") SetLinesForContent (@"go/token".contentÂ·2 []byte "esc:0x1")
-	func (@"go/token".fÂ·2 *@"go/token".File "esc:0x1") Size () (? int) { return @"go/token".fÂ·2.@"go/token".size }
-	func (@"go/token".fÂ·2 *@"go/token".File "esc:0x22") @"go/token".position (@"go/token".pÂ·3 @"go/token".Pos, @"go/token".adjustedÂ·4 bool) (@"go/token".posÂ·1 @"go/token".Position)
-	func (@"go/token".fÂ·4 *@"go/token".File "esc:0x22") @"go/token".unpack (@"go/token".offsetÂ·5 int, @"go/token".adjustedÂ·6 bool) (@"go/token".filenameÂ·1 string, @"go/token".lineÂ·2 int, @"go/token".columnÂ·3 int)
-	type @"go/token".FileSet struct { @"go/token".mutex @"sync".RWMutex; @"go/token".base int; @"go/token".files []*@"go/token".File; @"go/token".last *@"go/token".File }
-	func (@"go/token".sÂ·2 *@"go/token".FileSet) AddFile (@"go/token".filenameÂ·3 string, @"go/token".baseÂ·4 int, @"go/token".sizeÂ·5 int) (? *@"go/token".File)
-	func (@"go/token".sÂ·2 *@"go/token".FileSet) Base () (? int)
-	func (@"go/token".sÂ·2 *@"go/token".FileSet) File (@"go/token".pÂ·3 @"go/token".Pos) (@"go/token".fÂ·1 *@"go/token".File)
-	func (@"go/token".sÂ·1 *@"go/token".FileSet) Iterate (@"go/token".fÂ·2 func(? *@"go/token".File) (? bool) "esc:0x1")
-	func (@"go/token".sÂ·2 *@"go/token".FileSet) Position (@"go/token".pÂ·3 @"go/token".Pos) (@"go/token".posÂ·1 @"go/token".Position)
-	func (@"go/token".sÂ·2 *@"go/token".FileSet) PositionFor (@"go/token".pÂ·3 @"go/token".Pos, @"go/token".adjustedÂ·4 bool) (@"go/token".posÂ·1 @"go/token".Position)
-	func (@"go/token".sÂ·2 *@"go/token".FileSet) Read (@"go/token".decodeÂ·3 func(? interface {}) (? error) "esc:0x1") (? error)
-	func (@"go/token".sÂ·2 *@"go/token".FileSet) Write (@"go/token".encodeÂ·3 func(? interface {}) (? error) "esc:0x1") (? error)
-	func (@"go/token".sÂ·2 *@"go/token".FileSet) @"go/token".file (@"go/token".pÂ·3 @"go/token".Pos) (? *@"go/token".File)
-	func @"".Parse (@"".fsetÂ·5 *@"go/token".FileSet, @"".filenameÂ·6 string, @"".srcÂ·7 []byte, @"".fragmentOkÂ·8 bool) (@"".fileÂ·1 *@"go/ast".File, @"".sourceAdjÂ·2 func(@"".src []byte, @"".indent int) (? []byte), @"".indentAdjÂ·3 int, @"".errÂ·4 error)
-	type @"go/printer".Mode uint
-	import io "io" // indirect
-	type @"io".Writer interface { Write(@"io".p []byte) (@"io".n int, @"io".err error) }
-	type @"go/ast".Node interface { End() (? @"go/token".Pos); Pos() (? @"go/token".Pos) }
-	type @"go/printer".Config struct { Mode @"go/printer".Mode; Tabwidth int; Indent int }
-	func (@"go/printer".cfgÂ·2 *@"go/printer".Config "esc:0x1") Fprint (@"go/printer".outputÂ·3 @"io".Writer, @"go/printer".fsetÂ·4 *@"go/token".FileSet, @"go/printer".nodeÂ·5 interface {}) (? error)
-	func (@"go/printer".cfgÂ·2 *@"go/printer".Config "esc:0x1") @"go/printer".fprint (@"go/printer".outputÂ·3 @"io".Writer, @"go/printer".fsetÂ·4 *@"go/token".FileSet, @"go/printer".nodeÂ·5 interface {}, @"go/printer".nodeSizesÂ·6 map[@"go/ast".Node]int) (@"go/printer".errÂ·1 error)
-	func @"".Format (@"".fsetÂ·3 *@"go/token".FileSet, @"".fileÂ·4 *@"go/ast".File, @"".sourceAdjÂ·5 func(@"".src []byte, @"".indent int) (? []byte) "esc:0x1", @"".indentAdjÂ·6 int, @"".srcÂ·7 []byte "esc:0x9", @"".cfgÂ·8 @"go/printer".Config) (? []byte, ? error)
-	func @"".IsSpace (@"".bÂ·2 byte) (? bool) { return @"".bÂ·2 == byte(0x20) || @"".bÂ·2 == byte(0x9) || @"".bÂ·2 == byte(0xa) || @"".bÂ·2 == byte(0xd) }
-	func @"".init ()
-	var @"go/ast".objKindStrings [7]string
-	type @"sync".rlocker struct { @"sync".w @"sync".Mutex; @"sync".writerSem uint32; @"sync".readerSem uint32; @"sync".readerCount int32; @"sync".readerWait int32 }
-	func (@"sync".rÂ·1 *@"sync".rlocker) Lock ()
-	func (@"sync".rÂ·1 *@"sync".rlocker) Unlock ()
-
-$$
- _go_.o          0           0     0     644     15941     `
-go object linux amd64 go1.5.1 X:none
-
-!
-  go13ldbytes.ago/ast.ago/parser.ago/printer.ago/token.astrings.a ş"".Parse     „dH‹%    HD$°H;A†`  HìĞ   1Û1ÛH‰œ$(  H‰œ$0  HÇ„$       HÇ„$      H‹œ$ğ   H‰œ$¸   H‹œ$ø   H‰œ$À   H‹œ$   H‰œ$È   H    H‰$Hœ$¸   H‰\$HÇD$    è    H\$H|$H‹H‰H‹KH‰OH‹œ$Ø   H‰$H‹œ$à   H‰\$H‹œ$è   H‰\$HÇD$(   è    H‹\$0H‰œ$  H‹D$8H‹L$@H‰Œ$0  H‰„$(  Hƒø „R  €¼$   „D  H‰$H‹X ÿÓH‹L$H‹D$H‰L$HH‰$H‰D$PH‰D$H    H‰\$HÇD$   è    ¶\$ €û „õ  HÇ$    H    H‰\$HÇD$
-   è    H‹t$H‹D$ H‹L$(H‰´$    H‰„$¨   H‰Œ$°   H‰ÇH‰„$   H‹¬$ø   HèH‰Œ$˜   H)ÈHƒø ~SH    H‰$H‰´$ˆ   H‰t$H‰|$H‰L$H‰D$ è    H‹¼$¨   H‹t$(H‹\$0H‰œ$   H‹\$8H‰œ$˜   H‹„$ø   H‰´$ˆ   H,>H‰,$H‹œ$ğ   H‰\$H‰D$è    H‹´$˜   H‹œ$¨   H‹¬$ø   HëH9ó‡Ø  H‹”$ˆ   H‰T$XH‰”$¸   H‰\$`H‰œ$À   H‰t$hH‰´$È   H    H‰$Hœ$¸   H‰\$HÇD$    è    H\$H|$H‹H‰H‹KH‰OH‹œ$Ø   H‰$H‹œ$à   H‰\$H‹œ$è   H‰\$HÇD$(   è    H‹\$0H‰œ$  H‹D$8H‹L$@H‰Œ$0  H‰„$(  Hƒø uH    H‰œ$  HÄĞ   ÃH‰$H‹X ÿÓH‹L$H‹D$H‰L$HH‰$H‰D$PH‰D$H    H‰\$HÇD$   è    ¶\$ €û uHÄĞ   ÃHÇ$    H    H‰\$HÇD$   è    H‹t$H‹D$ H‹L$(H‰´$    H‰„$¨   H‰Œ$°   H‰ÇH‰„$   H‹¬$ø   HèH‰Œ$˜   H)ÈHƒø ~SH    H‰$H‰´$ˆ   H‰t$H‰|$H‰L$H‰D$ è    H‹¼$¨   H‹t$(H‹\$0H‰œ$   H‹\$8H‰œ$˜   H‹„$ø   H‰´$ˆ   H,>H‰,$H‹œ$ğ   H‰\$H‰D$è    H‹Œ$˜   H‹œ$¨   H‹¬$ø   HëH9Ë‡ƒ  H‹¬$ˆ   H‰ÊH‰¬$    H‰éH‰œ$¨   H‰”$°   H‰ØHƒÃH9Ó‡  H‰ÇHƒÇHÆ
-H‰ÅHÿÅH)Æ
-H‰ÅHƒÅH)Æ}H‰L$pH‰Œ$¸   H‰|$xH‰¼$À   H‰”$€   H‰”$È   H    H‰$Hœ$¸   H‰\$HÇD$    è    H\$H|$H‹H‰H‹KH‰OH‹œ$Ø   H‰$H‹œ$à   H‰\$H‹œ$è   H‰\$HÇD$(   è    H‹\$0H‰œ$  H‹D$8H‹\$@H‰œ$0  H‰„$(  Hƒø uH    H‰œ$  HÇ„$   ÿÿÿÿHÄĞ   ÃH-    H‰,$H‰L$H‰D$H‰T$H‰\$ è    H‹L$(H‹D$0H‹T$8é³şÿÿè    è    HÄĞ   Ãè    é~ùÿÿB
-      ü  type.[]uint8   º
-  runtime.convT2E   Ò
-  &go/parser.ParseFile   è       ¬  <go.string."expected 'package'"   Ò
-   strings.Contains   Œ  ,go.string."package p;"   ²
-  2runtime.stringtoslicebyte   Ü  type.[]uint8   ¦
-  &runtime.growslice_n   Ò	
-  runtime.memmove   †  type.[]uint8   Ä
-  runtime.convT2E   Ü
-  &go/parser.ParseFile   Ä  """.Parse.func1Â·f   ü       À  @go.string."expected declaration"   æ
-   strings.Contains   ¨  Bgo.string."package p; func _() {"   Î
-  2runtime.stringtoslicebyte   ø  type.[]uint8   Â
-  &runtime.growslice_n   î
-  runtime.memmove   Ö  type.[]uint8   ”
-  runtime.convT2E   ¬
-  &go/parser.ParseFile   ”  """.Parse.func2Â·f   Ú  type.[]uint8   ”
-  "runtime.growslice   Æ
-  $runtime.panicslice   Ô
-  $runtime.panicslice   ò
-  0runtime.morestack_noctxt   À   ."".autotmp_0017  type.uintptr "".autotmp_0016  type.int "".autotmp_0015  type.[]uint8 "".autotmp_0014  type.[]uint8 "".autotmp_0011 type.[]uint8 "".autotmp_0010 _type.[]uint8 "".autotmp_0009  type.[]uint8 "".autotmp_0008  type.[]uint8 "".autotmp_0007  type.bool "".autotmp_0006  type.string "".autotmp_0005  type.[]uint8 "".autotmp_0003 type.string "".autotmp_0002 /type.[]uint8 "".fsrc ¿type.[]uint8 "".psrc ïtype.[]uint8 "".err  type.error "".indentAdj type.int "".sourceAdj €>type.func([]uint8, int) []uint8 "".file p"type.*go/ast.File "".fragmentOk `type.bool "".src 0type.[]uint8 "".filename type.string "".fset  ,type.*go/token.FileSet @ ÖŸ RŸ àŸ MŸ   \4KÁo¸
-Kõ»+?/ D œ˜dzVyhzVÓÀ. TgclocalsÂ·028b3b085201053c62c417bb4f38aaf0 TgclocalsÂ·c10497e5baca687181c840f1eb9f979a   ¢/home/eyberg/go/src/github.com/deferpanic/gorump/go/src/internal/format/format.goş"".Format  à&  Ø&dH‹%    H„$pÿÿÿH;A†‡	  Hì  H‹´$8  H‹”$@  1ÛH‰œ$h  H‰œ$p  H‰œ$x  1ÛH‰œ$€  H‰œ$ˆ  H‹œ$(  1íH9ë…y  H    H‰$è    H‹D$H‰D$pH‰D$hH‹œ$   H‰\$`H‹    1íH9è„	  Hœ$P  H‰$H‹L$hH‰„$    H‰D$H‰Œ$¨   H‰L$H‹„$  H‰D$H‹L$`H    H‰„$   H‰D$ H‰Œ$˜   H‰L$(è    H‹D$0H‹L$8Hƒø t21ÛH‰œ$h  H‰œ$p  H‰œ$x  H‰„$€  H‰Œ$ˆ  HÄ  ÃH‹D$p1ÛH‹hL‹@L‹HL9ÅwEL‹I)èI)éIƒù tM*L‰”$h  L‰„$p  L‰Œ$x  1ÛH‰œ$€  H‰œ$ˆ  HÄ  Ãè    H    H‰$H    H‰\$H    H‰\$è    H‹D$éÅşÿÿ1ÿ1ÀH‰D$@H9Ğ}bH9Ğƒš  H¶+@€ı „}  @€ı	„s  @€ı
-„i  @€ı”Á€ù t(H9ĞƒM  H¶€û
-uH‰ÇHÿÇHÿÀH‰D$@H9Ğ|E1ÉH‰|$XH‹¬$H  H9ï‡  H‰¬$  H‰´$ø   L‰Œ$È   L‰ÎL‰Œ$Ğ   L‰Œ$Ø   L‰ÈL‰Œ$è   H‰¼$   HøL‰Œ$ğ   L)ÈHƒø ~[H    H‰$H‰´$à   H‰t$L‰L$L‰L$H‰D$ è    H‹¼$   L‹Œ$Ğ   H‹t$(H‹\$0H‰œ$è   H‹\$8H‰œ$ğ   H‰´$à   J,H‰,$H‹œ$ø   H‰\$H‰|$è    H‹Œ$ğ   H‹œ$Ğ   H‹¬$   HëH9Ë‡  I‰ÛL‹¤$à   L‰¤$È   H‰œ$Ğ   I‰ÊH‰Œ$Ø   H‹\$XH‹l$@L‹„$H  1ö1ÿL9Å‡Ã  H9ë‡º  L‹Œ$8  H)İI)ØIƒø tMI‰è1ÀL‰ÉL9À}¶)@€ı	…r  HÿÆHÿÁHÿÀL9À|åHƒş u@€ÿ tHÇÆ   1ÿH‰|$PH‰t$HH9÷}9L‰áL‰ØL‰ÛHÿÃL9Ó‡È  I‰ÛH‰œ$Ğ   HÆ	HÿÇH‰|$PH‰t$HH9÷|ÇH‹¬$0  H‰óHëH‰œ$`  H    H‰$è    H‹D$H‰D$xH‰D$hH‹œ$   H‰\$`H‹    1íH9è„  Hœ$P  H‰$H‹L$hH‰„$    H‰D$H‰Œ$¨   H‰L$H‹„$  H‰D$H‹L$`H    H‰„$   H‰D$ H‰Œ$˜   H‰L$(è    H‹D$0H‹L$8H‰Œ$ˆ   H‰„$€   Hƒø t21ÛH‰œ$h  H‰œ$p  H‰œ$x  H‰„$€  H‰Œ$ˆ  HÄ  ÃH‹D$x1ÛH‹hL‹@L‹HL9Å‡F  L‹I)èI)éIƒù tM*L‰”$°   L‰$L‰„$¸   L‰D$L‰Œ$À   L‰L$H‹œ$`  H‰\$H‹”$(  H‹ÿÓH‹\$ H‰œ$à   H‹|$(H‹\$0H‰œ$ğ   H‹Œ$È   H‹„$Ğ   H‹”$Ø   H‰ÆH‰„$   H‰¼$è   HøH‰”$  H)ĞHƒø ~SH    H‰$H‰Œ$ø   H‰L$H‰t$H‰T$H‰D$ è    H‹¼$è   H‹L$(H‹\$0H‰œ$   H‹\$8H‰œ$  H‹œ$Ğ   H‰Œ$ø   H,H‰,$H‹œ$à   H‰\$H‰|$è    H‹Œ$  H‹´$8  H‹”$@  H‹œ$Ğ   H‹¬$è   HëH9Ë‡Ø  I‰ÛL‹¤$ø   I‰ÊH‰ÑHƒù ~HH‰ÈHÿÈH9Ğƒ«  H¶+@€ı „  @€ı	„„  @€ı
-„z  @€ı”À< t	HÿÉHƒù ¸L‹„$H  H‰ÕH9Ñ‡K  H)ÍI)ÈI‰ñIƒø tM	H‰ïL‰„$ğ   L‰Œ$à   L‰¤$È   L‰áL‰œ$Ğ   L‰”$Ø   L‰ØL‰œ$   H‰¬$è   HèL‰”$  L)ĞHƒø ~[H    H‰$H‰Œ$ø   H‰L$L‰\$L‰T$H‰D$ è    L‹œ$Ğ   H‹¼$è   H‹L$(H‹\$0H‰œ$   H‹\$8H‰œ$  H‰Œ$ø   J,H‰,$H‹œ$à   H‰\$H‰|$è    H‹´$  H‹œ$Ğ   H‹¬$è   HëH9ów:H‹”$ø   H‰”$h  H‰œ$p  H‰´$x  1ÛH‰œ$€  H‰œ$ˆ  HÄ  Ãè    è    HÇÀ   éşÿÿè    è    è    H    H‰$H    H‰\$H    H‰\$è    H‹D$é°ûÿÿH-    H‰,$H‰L$H‰D$L‰T$H‰\$ è    H‹|$PH‹t$HL‹d$(L‹\$0L‹T$8L‰ØIÿÃL‰œ$Ğ   L‰”$Ø   L‰áL‰¤$È   éàúÿÿ@€ı …‡úÿÿHÇÇ   é{úÿÿè    è    è    è    HÇÁ   é’øÿÿè    è    éTöÿÿV
-      è  "type.bytes.Buffer   ú
-  "runtime.newobject   À  >go.itab.*bytes.Buffer.io.Writer   Ş  "type.*go/ast.File   œ
-  6go/printer.(*Config).Fprint   ä
-  $runtime.panicslice   ö  $type.*bytes.Buffer   Œ  type.io.Writer   ¤  >go.itab.*bytes.Buffer.io.Writer   ¸
-   runtime.typ2Itab     type.[]uint8   Ú
-  &runtime.growslice_n   †
-  runtime.memmove   Ş  "type.bytes.Buffer   ğ
-  "runtime.newobject   ¶  >go.itab.*bytes.Buffer.io.Writer   Ô  "type.*go/ast.File   ’
-  6go/printer.(*Config).Fprint   ˜       Ş  type.[]uint8   ¨
-  &runtime.growslice_n   Ô
-  runtime.memmove   €  type.[]uint8   Ê
-  &runtime.growslice_n   ö 
-  runtime.memmove   ´"
-  $runtime.panicslice   Â"
-  $runtime.panicslice   è"
-  $runtime.panicindex   ö"
-  $runtime.panicslice   „#
-  $runtime.panicslice   –#  $type.*bytes.Buffer   ¬#  type.io.Writer   Ä#  >go.itab.*bytes.Buffer.io.Writer   Ø#
-   runtime.typ2Itab   ú#  type.[]uint8   ´$
-  "runtime.growslice   è%
-  $runtime.panicslice   ö%
-  $runtime.panicslice   „&
-  $runtime.panicslice   ’&
-  $runtime.panicindex   ¸&
-  $runtime.panicindex   Æ&
-  0runtime.morestack_noctxt   ğ   `"".autotmp_0058  type.uintptr "".autotmp_0057  type.int "".autotmp_0056  type.[]uint8 "".autotmp_0055  type.bool "".autotmp_0054  type.int "".autotmp_0053  type.uintptr "".autotmp_0052  type.int "".autotmp_0051  type.[]uint8 "".autotmp_0050  type.*uint8 "".autotmp_0049  type.uint8 "".autotmp_0047  type.*uint8 "".autotmp_0046  type.int "".autotmp_0045  type.int "".autotmp_0043  type.int "".autotmp_0042 _type.[]uint8 "".autotmp_0039  type.[]uint8 "".autotmp_0038  type.[]uint8 "".autotmp_0037  type.int "".autotmp_0036  type.[]uint8 "".autotmp_0035  type.[]uint8 "".autotmp_0034  type.int "".autotmp_0033  "type.*go/ast.File "".autotmp_0032  $type.*bytes.Buffer "".autotmp_0031  type.int "".autotmp_0029  type.[]uint8 "".autotmp_0028  type.[]uint8 "".autotmp_0027  type.[]uint8 "".autotmp_0025  type.int "".autotmp_0024 /type.[]uint8 "".autotmp_0022 ß"type.*go/ast.File "".autotmp_0021 Ï$type.*bytes.Buffer "".&buf ¯$type.*bytes.Buffer "".&buf ¿$type.*bytes.Buffer "".~r0 ¿type.[]uint8 "".err Ÿtype.error "".i ÿtype.int "".indent type.int "".res type.[]uint8 "".j Ÿtype.int "".i ïtype.int "".~r7 Ğtype.error "".~r6  type.[]uint8 "".cfg p,type.go/printer.Config "".src @type.[]uint8 "".indentAdj 0type.int "".sourceAdj  >type.func([]uint8, int) []uint8 "".file "type.*go/ast.File "".fset  ,type.*go/token.FileSet D" ±Ÿ \Ÿ ­Ÿ ¹Ÿ — ° ÖÆ^–2d2D
-´:
-	'2‘Eæ2c
- X |‘¤*‘Vµ‘Ä‡V»V_R.— TgclocalsÂ·e84f6ab826dbab49fd7da72039d89664 TgclocalsÂ·4023d37a46d650dea4f91439d0b33791   ¢/home/eyberg/go/src/github.com/deferpanic/gorump/go/src/internal/format/format.goş"".IsSpace  @  @¶D$< t<	t<
-t<”D$ÃÆD$ëø     "".~r1 type.bool "".b  type.uint8     Ä  TgclocalsÂ·23e8278e2b69a3a75fa59b23c49ed6ad TgclocalsÂ·33cdeccccebe80329f1fdbee7f5874cb   ¢/home/eyberg/go/src/github.com/deferpanic/gorump/go/src/internal/format/format.goş"".Parse.func1  à  ÖdH‹%    H;a†   Hƒì01ÛH‰\$XH‰\$`H‰\$hH‹\$PH‹l$@L‹D$HHƒÃ
-H9ëwZL‹L$8H)İI)ØIƒø tML‰L$8L‰$H‰l$@H‰l$L‰D$HL‰D$è    H‹T$H‹L$ H‹D$(H‰T$XH‰L$`H‰D$hHƒÄ0Ãè    è    éUÿÿÿ
-      æ
-  bytes.TrimSpace   ¶
-  $runtime.panicslice   Ä
-  0runtime.morestack_noctxt   p`  "".~r2 @type.[]uint8 "".indent 0type.int "".src  type.[]uint8 `‚_` ° V(-E 
- r> TgclocalsÂ·a041240a37ce609efec56707c330d1a4 TgclocalsÂ·33cdeccccebe80329f1fdbee7f5874cb   ¢/home/eyberg/go/src/github.com/deferpanic/gorump/go/src/internal/format/format.goş"".Parse.func2  À  ¢dH‹%    H;a†´   Hƒì0H‹D$P1ÛH‰\$XH‰\$`H‰\$hHƒø }1ÀH‰ÃH‰D$PH‹l$@L‹D$HHÑãHƒÃH9ëwmL‹L$8H)İI)ØIƒø tMH‰ëHƒëL9ÃwEL‰L$8L‰$H‰\$@H‰\$L‰D$HL‰D$è    H‹T$H‹L$ H‹D$(H‰T$XH‰L$`H‰D$hHƒÄ0Ãè    è    è    é/ÿÿÿ
-
-      ¤
-  bytes.TrimSpace   ô
-  $runtime.panicslice   ‚
-  $runtime.panicslice   
-  0runtime.morestack_noctxt   p`  "".autotmp_0073  type.int "".~r2 @type.[]uint8 "".indent 0type.int "".src  type.[]uint8 `¡_`' à (†-
-3E  ‘O TgclocalsÂ·a041240a37ce609efec56707c330d1a4 TgclocalsÂ·33cdeccccebe80329f1fdbee7f5874cb   ¢/home/eyberg/go/src/github.com/deferpanic/gorump/go/src/internal/format/format.goş"".init  à  ÆdH‹%    H;avM¶    €û t¶    €ûuÃè    Æ    è    è    è    è    è    è    Æ    Ãè    ë
-      $  "".initdoneÂ·   <  "".initdoneÂ·   R
-  "runtime.throwinit   b "".initdoneÂ·   n
-  bytes.init   x
-  go/ast.init   ‚
-  go/parser.init   Œ
-  go/printer.init   –
-  go/token.init    
-  strings.init   ¬ "".initdoneÂ·   º
-  0runtime.morestack_noctxt        p p Èp 
- (H TgclocalsÂ·33cdeccccebe80329f1fdbee7f5874cb TgclocalsÂ·33cdeccccebe80329f1fdbee7f5874cb   ¢/home/eyberg/go/src/github.com/deferpanic/gorump/go/src/internal/format/format.goşDgo.string.hdr."expected 'package'"                       <go.string."expected 'package'"   ş<go.string."expected 'package'" 0  &expected 'package'  ş4go.string.hdr."package p;"             
-          ,go.string."package p;"   ş,go.string."package p;"    package p;  şHgo.string.hdr."expected declaration"                       @go.string."expected declaration"   ş@go.string."expected declaration" 0  *expected declaration  şJgo.string.hdr."package p; func _() {"                       Bgo.string."package p; func _() {"   şBgo.string."package p; func _() {" 0  ,package p; func _() {  şTgclocalsÂ·c10497e5baca687181c840f1eb9f979a @  @           @              	   şTgclocalsÂ·028b3b085201053c62c417bb4f38aaf0 @  @           ‹         ş0>go.itab.*bytes.Buffer.io.Writer     şTgclocalsÂ·4023d37a46d650dea4f91439d0b33791 X  X	                     	               şTgclocalsÂ·e84f6ab826dbab49fd7da72039d89664 X  X	                                  şTgclocalsÂ·33cdeccccebe80329f1fdbee7f5874cb           şTgclocalsÂ·23e8278e2b69a3a75fa59b23c49ed6ad              şTgclocalsÂ·33cdeccccebe80329f1fdbee7f5874cb           şTgclocalsÂ·a041240a37ce609efec56707c330d1a4             şTgclocalsÂ·33cdeccccebe80329f1fdbee7f5874cb           şTgclocalsÂ·a041240a37ce609efec56707c330d1a4             şTgclocalsÂ·33cdeccccebe80329f1fdbee7f5874cb           şTgclocalsÂ·33cdeccccebe80329f1fdbee7f5874cb           ş0"".initdoneÂ·  type.uint8   ş"".ParseÂ·f              "".Parse   ş"".FormatÂ·f              "".Format   ş"".IsSpaceÂ·f              "".IsSpace   ş""".Parse.func1Â·f              "".Parse.func1   ş""".Parse.func2Â·f              "".Parse.func2   ş"".initÂ·f              "".init   ş"runtime.gcbits.01    ş.go.string.hdr."[]uint8"                       &go.string."[]uint8"   ş&go.string."[]uint8"   []uint8  ştype.[]uint8                   ß~.8                                                         0   runtime.algarray   @  "runtime.gcbits.01   P  .go.string.hdr."[]uint8"   p  *go.weak.type.*[]uint8   €  "runtime.zerovalue     type.uint8   ş6go.typelink.[]uint8	[]uint8              type.[]uint8   şTgo.string.hdr."func([]uint8, int) []uint8"                       Lgo.string."func([]uint8, int) []uint8"   şLgo.string."func([]uint8, int) []uint8" @  6func([]uint8, int) []uint8  ş>type.func([]uint8, int) []uint8 °  °              ±¿9k 3                                                                                                                            0€  runtime.algarray   @  "runtime.gcbits.01   P  Tgo.string.hdr."func([]uint8, int) []uint8"   p  Pgo.weak.type.*func([]uint8, int) []uint8   €  "runtime.zerovalue    € >type.func([]uint8, int) []uint8   Ğ  >type.func([]uint8, int) []uint8   €  type.[]uint8     type.int      type.[]uint8   ş‚go.typelink.func([]uint8, int) []uint8	func([]uint8, int) []uint8              >type.func([]uint8, int) []uint8   ş.go.string.hdr."runtime"                       &go.string."runtime"   ş&go.string."runtime"   runtime  ş,go.importpath.runtime.                       &go.string."runtime"   ş*go.string.hdr."bytes"                       "go.string."bytes"   ş"go.string."bytes"   bytes  ş(go.importpath.bytes.                       "go.string."bytes"   ş,go.string.hdr."go/ast"                       $go.string."go/ast"   ş$go.string."go/ast"   go/ast  ş*go.importpath.go/ast.                       $go.string."go/ast"   ş0go.string.hdr."go/token"                       (go.string."go/token"   ş(go.string."go/token"    go/token  ş.go.importpath.go/token.                       (go.string."go/token"   ş.go.string.hdr."strings"                       &go.string."strings"   ş&go.string."strings"   strings  ş,go.importpath.strings.                       &go.string."strings"   ş2go.string.hdr."go/parser"             	          *go.string."go/parser"   ş*go.string."go/parser"    go/parser  ş0go.importpath.go/parser.             	          *go.string."go/parser"   ş4go.string.hdr."go/printer"             
-          ,go.string."go/printer"   ş,go.string."go/printer"    go/printer  ş2go.importpath.go/printer.             
-          ,go.string."go/printer"   ş"runtime.zerovalue      ÿÿgo13ld 

@@ -2,6 +2,8 @@ go/bin
 go/pkg
 1.7/go/bin
 1.7/go/pkg
+go1.5/bin
+go1.5/pkg
 examples/httpd/httpd.bin
 
 *.sw[o|p]
