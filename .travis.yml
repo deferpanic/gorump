@@ -18,23 +18,22 @@ notifications:
   email:
     recipients:
       - engineering@deferpanic.com
-deploy:
-    - provider: s3
-      access_key_id: $ARTIFACTS_KEY
-      secret_access_key: $ARTIFACTS_SECRET
-      bucket: $ARTIFACTS_BUCKET
-      region: us-east-1
-      skip_cleanup: true
-      local-dir: $HOME/gopath/src/github.com/deferpanic/gorump/build
-      acl: public_read
-      detect_encoding: true  
-    - provider: s3
-      access_key_id: $ARTIFACTS_KEY
-      secret_access_key: $ARTIFACTS_SECRET
-      bucket: $ARTIFACTS_BUCKET
-      region: us-east-1
-      skip_cleanup: true
-      local-dir: $HOME/gopath/src/github.com/deferpanic/gorump/rumprun/build
-      acl: public_read
-      detect_encoding: true
-
+#deploy:
+#    - provider: s3
+#      access_key_id: $ARTIFACTS_KEY
+#      secret_access_key: $ARTIFACTS_SECRET
+#      bucket: $ARTIFACTS_BUCKET
+#      region: us-east-1
+#      skip_cleanup: true
+#      local-dir: $HOME/gopath/src/github.com/deferpanic/gorump/build
+#      acl: public_read
+#      detect_encoding: true  
+#    - provider: s3
+#      access_key_id: $ARTIFACTS_KEY
+#      secret_access_key: $ARTIFACTS_SECRET
+#      bucket: $ARTIFACTS_BUCKET
+#      region: us-east-1
+#      skip_cleanup: true
+#      local-dir: $HOME/gopath/src/github.com/deferpanic/gorump/rumprun/build
+#      acl: public_read
+#      detect_encoding: true
