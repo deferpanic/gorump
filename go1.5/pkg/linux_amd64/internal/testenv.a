@@ -1,185 +1,0 @@
-!<arch>
-__.PKGDEF       0           0     0     644     12309     `
-go object linux amd64 go1.5.1 X:none
-build id "9d0a410dce974cb0b08c319695b6342bfbca6b4c"
-
-$$
-package testenv
-	import runtime "runtime"
-	import os "os"
-	import strings "strings"
-	import testing "testing"
-	func @"".Builder () (? string)
-	func @"".HasGoBuild () (? bool)
-	import sync "sync" // indirect
-	type @"sync".Mutex struct { @"sync".state int32; @"sync".sema uint32 }
-	func (@"sync".mÂ·1 *@"sync".Mutex) Lock ()
-	func (@"sync".mÂ·1 *@"sync".Mutex) Unlock ()
-	type @"sync".Locker interface { Lock(); Unlock() }
-	type @"sync".RWMutex struct { @"sync".w @"sync".Mutex; @"sync".writerSem uint32; @"sync".readerSem uint32; @"sync".readerCount int32; @"sync".readerWait int32 }
-	func (@"sync".rwÂ·1 *@"sync".RWMutex) Lock ()
-	func (@"sync".rwÂ·1 *@"sync".RWMutex) RLock ()
-	func (@"sync".rwÂ·2 *@"sync".RWMutex "esc:0x12") RLocker () (? @"sync".Locker) { return (*@"sync".rlocker)(@"sync".rwÂ·2) }
-	func (@"sync".rwÂ·1 *@"sync".RWMutex) RUnlock ()
-	func (@"sync".rwÂ·1 *@"sync".RWMutex) Unlock ()
-	import time "time" // indirect
-	type @"time".zone struct { @"time".name string; @"time".offset int; @"time".isDST bool }
-	type @"time".zoneTrans struct { @"time".when int64; @"time".index uint8; @"time".isstd bool; @"time".isutc bool }
-	type @"time".Location struct { @"time".name string; @"time".zone []@"time".zone; @"time".tx []@"time".zoneTrans; @"time".cacheStart int64; @"time".cacheEnd int64; @"time".cacheZone *@"time".zone }
-	func (@"time".lÂ·2 *@"time".Location "esc:0x22") String () (? string)
-	func (@"time".lÂ·2 *@"time".Location "esc:0x1") @"time".firstZoneUsed () (? bool)
-	func (@"time".lÂ·2 *@"time".Location "esc:0x12") @"time".get () (? *@"time".Location)
-	func (@"time".lÂ·6 *@"time".Location "esc:0x32") @"time".lookup (@"time".secÂ·7 int64) (@"time".nameÂ·1 string, @"time".offsetÂ·2 int, @"time".isDSTÂ·3 bool, @"time".startÂ·4 int64, @"time".endÂ·5 int64)
-	func (@"time".lÂ·2 *@"time".Location "esc:0x1") @"time".lookupFirstZone () (? int)
-	func (@"time".lÂ·4 *@"time".Location "esc:0x1") @"time".lookupName (@"time".nameÂ·5 string "esc:0x1", @"time".unixÂ·6 int64) (@"time".offsetÂ·1 int, @"time".isDSTÂ·2 bool, @"time".okÂ·3 bool)
-	type @"time".Duration int64
-	func (@"time".dÂ·2 @"time".Duration) Hours () (? float64) { var @"time".hourÂ·3 @"time".Duration; ; @"time".hourÂ·3 = @"time".dÂ·2 / @"time".Duration(0x34630b8a000); var @"time".nsecÂ·4 @"time".Duration; ; @"time".nsecÂ·4 = @"time".dÂ·2 % @"time".Duration(0x34630b8a000); return float64(@"time".hourÂ·3) + float64(@"time".nsecÂ·4) * 8190022623310637111963488201822504381538623676021880892417778544696899264837610290203272971060556344039023584360473938041055625214280336402169897364226048p-553 }
-	func (@"time".dÂ·2 @"time".Duration) Minutes () (? float64) { var @"time".minÂ·3 @"time".Duration; ; @"time".minÂ·3 = @"time".dÂ·2 / @"time".Duration(0xdf8475800); var @"time".nsecÂ·4 @"time".Duration; ; @"time".nsecÂ·4 = @"time".dÂ·2 % @"time".Duration(0xdf8475800); return float64(@"time".minÂ·3) + float64(@"time".nsecÂ·4) * 7678146209353722106395056769533233877065564876941352542109479049699919628723768656821910653339403201031675627614471533358284117434246264392176261853609984p-547 }
-	func (@"time".dÂ·2 @"time".Duration) Nanoseconds () (? int64) { return int64(@"time".dÂ·2) }
-	func (@"time".dÂ·2 @"time".Duration) Seconds () (? float64) { var @"time".secÂ·3 @"time".Duration; ; @"time".secÂ·3 = @"time".dÂ·2 / @"time".Duration(0x3b9aca00); var @"time".nsecÂ·4 @"time".Duration; ; @"time".nsecÂ·4 = @"time".dÂ·2 % @"time".Duration(0x3b9aca00); return float64(@"time".secÂ·3) + float64(@"time".nsecÂ·4) * 7198262071269114660816079141112770740375861891461678802759824945047098083990024106014198994535558872472104883612039846078596891298747423852523262413111296p-541 }
-	func (@"time".dÂ·2 @"time".Duration) String () (? string)
-	type @"time".Month int
-	func (@"time".mÂ·2 @"time".Month) String () (? string) { return @"time".months[@"time".mÂ·2 - @"time".Month(0x1)] }
-	type @"time".Weekday int
-	func (@"time".dÂ·2 @"time".Weekday) String () (? string) { return @"time".days[@"time".dÂ·2] }
-	type @"time".Time struct { @"time".sec int64; @"time".nsec int32; @"time".loc *@"time".Location }
-	func (@"time".tÂ·2 @"time".Time "esc:0x12") Add (@"time".dÂ·3 @"time".Duration) (? @"time".Time) { @"time".tÂ·2.@"time".sec += int64(@"time".dÂ·3 / @"time".Duration(0x3b9aca00)); var @"time".nsecÂ·4 int32; ; @"time".nsecÂ·4 = int32(@"time".tÂ·2.@"time".nsec) + int32(@"time".dÂ·3 % @"time".Duration(0x3b9aca00)); if @"time".nsecÂ·4 >= 0x3b9aca00 { @"time".tÂ·2.@"time".sec++; @"time".nsecÂ·4 -= 0x3b9aca00 } else { if @"time".nsecÂ·4 < 0x0 { @"time".tÂ·2.@"time".sec--; @"time".nsecÂ·4 += 0x3b9aca00 } }; @"time".tÂ·2.@"time".nsec = @"time".nsecÂ·4; return @"time".tÂ·2 }
-	func (@"time".tÂ·2 @"time".Time "esc:0x12") AddDate (@"time".yearsÂ·3 int, @"time".monthsÂ·4 int, @"time".daysÂ·5 int) (? @"time".Time)
-	func (@"time".tÂ·2 @"time".Time "esc:0x1") After (@"time".uÂ·3 @"time".Time "esc:0x1") (? bool) { return @"time".tÂ·2.@"time".sec > @"time".uÂ·3.@"time".sec || @"time".tÂ·2.@"time".sec == @"time".uÂ·3.@"time".sec && @"time".tÂ·2.@"time".nsec > @"time".uÂ·3.@"time".nsec }
-	func (@"time".tÂ·2 @"time".Time "esc:0x9") AppendFormat (@"time".bÂ·3 []byte "esc:0x1a", @"time".layoutÂ·4 string "esc:0x9") (? []byte)
-	func (@"time".tÂ·2 @"time".Time "esc:0x1") Before (@"time".uÂ·3 @"time".Time "esc:0x1") (? bool) { return @"time".tÂ·2.@"time".sec < @"time".uÂ·3.@"time".sec || @"time".tÂ·2.@"time".sec == @"time".uÂ·3.@"time".sec && @"time".tÂ·2.@"time".nsec < @"time".uÂ·3.@"time".nsec }
-	func (@"time".tÂ·4 @"time".Time "esc:0x1") Clock () (@"time".hourÂ·1 int, @"time".minÂ·2 int, @"time".secÂ·3 int)
-	func (@"time".tÂ·4 @"time".Time "esc:0x1") Date () (@"time".yearÂ·1 int, @"time".monthÂ·2 @"time".Month, @"time".dayÂ·3 int)
-	func (@"time".tÂ·2 @"time".Time "esc:0x1") Day () (? int)
-	func (@"time".tÂ·2 @"time".Time "esc:0x1") Equal (@"time".uÂ·3 @"time".Time "esc:0x1") (? bool) { return @"time".tÂ·2.@"time".sec == @"time".uÂ·3.@"time".sec && @"time".tÂ·2.@"time".nsec == @"time".uÂ·3.@"time".nsec }
-	func (@"time".tÂ·2 @"time".Time "esc:0x9") Format (@"time".layoutÂ·3 string "esc:0x9") (? string)
-	func (@"time".tÂ·2 *@"time".Time "esc:0x1") GobDecode (@"time".dataÂ·3 []byte "esc:0x1") (? error)
-	func (@"time".tÂ·3 @"time".Time "esc:0x1") GobEncode () (? []byte, ? error)
-	func (@"time".tÂ·2 @"time".Time "esc:0x1") Hour () (? int)
-	func (@"time".tÂ·3 @"time".Time "esc:0x1") ISOWeek () (@"time".yearÂ·1 int, @"time".weekÂ·2 int)
-	func (@"time".tÂ·2 @"time".Time "esc:0x12") In (@"time".locÂ·3 *@"time".Location "esc:0x12") (? @"time".Time)
-	func (@"time".tÂ·2 @"time".Time "esc:0x1") IsZero () (? bool) { return @"time".tÂ·2.@"time".sec == 0x0 && @"time".tÂ·2.@"time".nsec == 0x0 }
-	func (@"time".tÂ·2 @"time".Time "esc:0x12") Local () (? @"time".Time) { @"time".tÂ·2.@"time".loc = @"time".Local; return @"time".tÂ·2 }
-	func (@"time".tÂ·2 @"time".Time "esc:0x12") Location () (? *@"time".Location) { var @"time".lÂ·3 *@"time".Location; ; @"time".lÂ·3 = @"time".tÂ·2.@"time".loc; if @"time".lÂ·3 == nil { @"time".lÂ·3 = @"time".UTC }; return @"time".lÂ·3 }
-	func (@"time".tÂ·3 @"time".Time "esc:0x1") MarshalBinary () (? []byte, ? error)
-	func (@"time".tÂ·3 @"time".Time "esc:0x9") MarshalJSON () (? []byte, ? error)
-	func (@"time".tÂ·3 @"time".Time "esc:0x9") MarshalText () (? []byte, ? error)
-	func (@"time".tÂ·2 @"time".Time "esc:0x1") Minute () (? int)
-	func (@"time".tÂ·2 @"time".Time "esc:0x1") Month () (? @"time".Month)
-	func (@"time".tÂ·2 @"time".Time "esc:0x1") Nanosecond () (? int) { return int(@"time".tÂ·2.@"time".nsec) }
-	func (@"time".tÂ·2 @"time".Time "esc:0x12") Round (@"time".dÂ·3 @"time".Duration) (? @"time".Time)
-	func (@"time".tÂ·2 @"time".Time "esc:0x1") Second () (? int)
-	func (@"time".tÂ·2 @"time".Time "esc:0x9") String () (? string)
-	func (@"time".tÂ·2 @"time".Time "esc:0x1") Sub (@"time".uÂ·3 @"time".Time "esc:0x1") (? @"time".Duration)
-	func (@"time".tÂ·2 @"time".Time "esc:0x12") Truncate (@"time".dÂ·3 @"time".Duration) (? @"time".Time)
-	func (@"time".tÂ·2 @"time".Time "esc:0x12") UTC () (? @"time".Time) { @"time".tÂ·2.@"time".loc = @"time".UTC; return @"time".tÂ·2 }
-	func (@"time".tÂ·2 @"time".Time "esc:0x1") Unix () (? int64) { return @"time".tÂ·2.@"time".sec + -0xe7791f700 }
-	func (@"time".tÂ·2 @"time".Time "esc:0x1") UnixNano () (? int64) { return (@"time".tÂ·2.@"time".sec + -0xe7791f700) * 0x3b9aca00 + int64(@"time".tÂ·2.@"time".nsec) }
-	func (@"time".tÂ·2 *@"time".Time "esc:0x1") UnmarshalBinary (@"time".dataÂ·3 []byte "esc:0x1") (? error)
-	func (@"time".tÂ·2 *@"time".Time "esc:0x1") UnmarshalJSON (@"time".dataÂ·3 []byte "esc:0x1") (@"time".errÂ·1 error)
-	func (@"time".tÂ·2 *@"time".Time "esc:0x1") UnmarshalText (@"time".dataÂ·3 []byte "esc:0x1") (@"time".errÂ·1 error)
-	func (@"time".tÂ·2 @"time".Time "esc:0x1") Weekday () (? @"time".Weekday)
-	func (@"time".tÂ·2 @"time".Time "esc:0x1") Year () (? int)
-	func (@"time".tÂ·2 @"time".Time "esc:0x1") YearDay () (? int)
-	func (@"time".tÂ·3 @"time".Time "esc:0x32") Zone () (@"time".nameÂ·1 string, @"time".offsetÂ·2 int)
-	func (@"time".tÂ·2 @"time".Time "esc:0x1") @"time".abs () (? uint64)
-	func (@"time".tÂ·5 @"time".Time "esc:0x1") @"time".date (@"time".fullÂ·6 bool) (@"time".yearÂ·1 int, @"time".monthÂ·2 @"time".Month, @"time".dayÂ·3 int, @"time".ydayÂ·4 int)
-	func (@"time".tÂ·4 @"time".Time "esc:0x32") @"time".locabs () (@"time".nameÂ·1 string, @"time".offsetÂ·2 int, @"time".absÂ·3 uint64)
-	type @"testing".common struct { @"testing".mu @"sync".RWMutex; @"testing".output []byte; @"testing".failed bool; @"testing".skipped bool; @"testing".finished bool; @"testing".start @"time".Time; @"testing".duration @"time".Duration; @"testing".self interface {}; @"testing".signal chan interface {} }
-	func (@"testing".cÂ·1 *@"testing".common) Error (@"testing".argsÂ·2 ...interface {} "esc:0x9")
-	func (@"testing".cÂ·1 *@"testing".common) Errorf (@"testing".formatÂ·2 string "esc:0x9", @"testing".argsÂ·3 ...interface {} "esc:0x9")
-	func (@"testing".cÂ·1 *@"testing".common) Fail ()
-	func (@"testing".cÂ·1 *@"testing".common) FailNow ()
-	func (@"testing".cÂ·2 *@"testing".common) Failed () (? bool)
-	func (@"testing".cÂ·1 *@"testing".common) Fatal (@"testing".argsÂ·2 ...interface {} "esc:0x9")
-	func (@"testing".cÂ·1 *@"testing".common) Fatalf (@"testing".formatÂ·2 string "esc:0x9", @"testing".argsÂ·3 ...interface {} "esc:0x9")
-	func (@"testing".cÂ·1 *@"testing".common) Log (@"testing".argsÂ·2 ...interface {} "esc:0x9")
-	func (@"testing".cÂ·1 *@"testing".common) Logf (@"testing".formatÂ·2 string "esc:0x9", @"testing".argsÂ·3 ...interface {} "esc:0x9")
-	func (@"testing".cÂ·1 *@"testing".common) Skip (@"testing".argsÂ·2 ...interface {} "esc:0x9")
-	func (@"testing".cÂ·1 *@"testing".common) SkipNow ()
-	func (@"testing".cÂ·1 *@"testing".common) Skipf (@"testing".formatÂ·2 string "esc:0x9", @"testing".argsÂ·3 ...interface {} "esc:0x9")
-	func (@"testing".cÂ·2 *@"testing".common) Skipped () (? bool)
-	func (@"testing".cÂ·1 *@"testing".common) @"testing".log (@"testing".sÂ·2 string)
-	func (@"testing".cÂ·1 *@"testing".common "esc:0x1") @"testing".private () {  }
-	func (@"testing".cÂ·1 *@"testing".common) @"testing".skip ()
-	type @"testing".T struct { @"testing".? @"testing".common; @"testing".name string; @"testing".startParallel chan bool }
-	func (@"testing".tÂ·1 *@"testing".T "esc:0x1") Parallel ()
-	func (@"testing".tÂ·1 *@"testing".T) @"testing".report ()
-	func @"".MustHaveGoBuild (@"".tÂ·1 *@"testing".T)
-	func @"".HasGoRun () (? bool)
-	func @"".MustHaveGoRun (@"".tÂ·1 *@"testing".T)
-	func @"".HasExec () (? bool)
-	func @"".MustHaveExec (@"".tÂ·1 *@"testing".T)
-	func @"".HasExternalNetwork () (? bool) { return !@"testing".Short() }
-	func @"".MustHaveExternalNetwork (@"".tÂ·1 *@"testing".T)
-	func @"".init ()
-	type @"sync".rlocker struct { @"sync".w @"sync".Mutex; @"sync".writerSem uint32; @"sync".readerSem uint32; @"sync".readerCount int32; @"sync".readerWait int32 }
-	func (@"sync".rÂ·1 *@"sync".rlocker) Lock ()
-	func (@"sync".rÂ·1 *@"sync".rlocker) Unlock ()
-	var @"time".months [12]string
-	var @"time".days [7]string
-	var @"time".Local *@"time".Location
-	var @"time".UTC *@"time".Location
-	func @"testing".Short () (? bool) { return *@"testing".short }
-	var @"testing".short *bool
-
-$$
- _go_.o          0           0     0     644     15553     `
-go object linux amd64 go1.5.1 X:none
-
-!
-  go13ldos.aruntime.astrings.atesting.a ş"".Builder  À  °dH‹%    H;avBHƒì 1ÛH‰\$(H‰\$0H    H‰$HÇD$   è    H‹L$H‹D$H‰L$(H‰D$0HƒÄ Ãè    ë¨
-      D  6go.string."GO_BUILDER_NAME"   h
-  os.Getenv   ¤
-  0runtime.morestack_noctxt    @  "".~r0  type.string @=?@ ` 22 
- 3- TgclocalsÂ·23e8278e2b69a3a75fa59b23c49ed6ad TgclocalsÂ·33cdeccccebe80329f1fdbee7f5874cb   ¦/home/eyberg/go/src/github.com/deferpanic/gorump/go/src/internal/testenv/testenv.goş"".HasGoBuild     Hƒì(ÆD$0HƒÄ(Ã P  "".~r0  type.bool P	O  
->  TgclocalsÂ·5184031d3a32a42d85027f073f873668 TgclocalsÂ·33cdeccccebe80329f1fdbee7f5874cb   ¦/home/eyberg/go/src/github.com/deferpanic/gorump/go/src/internal/testenv/testenv.goş$"".MustHaveGoBuild  À  ´dH‹%    HD$èH;A†¸  Hì˜   è    ¶$€û …  H    H‰\$PHÇD$X   H    H‰\$@HÇD$H   1ÛH‰\$xH‰œ$€   H‰œ$ˆ   H‰œ$   H\$xHƒû „>  HÇD$h   HÇD$p   H‰\$`H    H‰$H\$PH‰\$HÇD$    è    H‹L$H‹D$ H‹\$`H‰L$0H‰H‰D$8€=     …Ä   H‰CH    H‰$H\$@H‰\$HÇD$    è    H‹L$H‹D$ H‹\$`HƒÃH‰L$0H‰H‰D$8€=     u`H‰CH‹œ$    H‰$Hƒ<$ t@H    H‰\$HÇD$0   H‹\$`H‰\$H‹\$hH‰\$ H‹\$pH‰\$(è    HÄ˜   Ã‰%    ë·LCL‰$H‰D$è    ëLCL‰$H‰D$è    é)ÿÿÿ‰é»şÿÿë»è    é&şÿÿ
-      @
-  "".HasGoBuild   h  "go.string."linux"   ’  "go.string."amd64"   Æ  type.string   ş
-  runtime.convT2E   Â 6runtime.writeBarrierEnabled   æ  type.string   
-  runtime.convT2E   ê 6runtime.writeBarrierEnabled   ¬  xgo.string."skipping test: 'go build' not available on %s/%s"   
-  .testing.(*common).Skipf   Ô
-  .runtime.writebarrierptr   ü
-  .runtime.writebarrierptr   ¢
-  0runtime.morestack_noctxt   °  "".autotmp_0014  "type.interface {} "".autotmp_0013 Ï"type.interface {} "".autotmp_0012 ?(type.[2]interface {} "".autotmp_0009 o&type.[]interface {} "".autotmp_0008 ¯type.string "".autotmp_0007 type.string "".t  type.*testing.T °ó¯°M à  \Ú;  ŸÈ#7 TgclocalsÂ·37a2283f5c69c342946cad8073b58fca TgclocalsÂ·24dad5c01c8a1c135720cc7d2d411117   ¦/home/eyberg/go/src/github.com/deferpanic/gorump/go/src/internal/testenv/testenv.goş"".HasGoRun  `  XdH‹%    H;avHƒìè    ¶$ˆ\$HƒÄÃè    ëÔ
-      (
-  "".HasGoBuild   L
-  0runtime.morestack_noctxt     "".~r0  type.bool  0 j 
-  TgclocalsÂ·5184031d3a32a42d85027f073f873668 TgclocalsÂ·33cdeccccebe80329f1fdbee7f5874cb   ¦/home/eyberg/go/src/github.com/deferpanic/gorump/go/src/internal/testenv/testenv.goş "".MustHaveGoRun  À  ´dH‹%    HD$èH;A†¸  Hì˜   è    ¶$€û …  H    H‰\$PHÇD$X   H    H‰\$@HÇD$H   1ÛH‰\$xH‰œ$€   H‰œ$ˆ   H‰œ$   H\$xHƒû „>  HÇD$h   HÇD$p   H‰\$`H    H‰$H\$PH‰\$HÇD$    è    H‹L$H‹D$ H‹\$`H‰L$0H‰H‰D$8€=     …Ä   H‰CH    H‰$H\$@H‰\$HÇD$    è    H‹L$H‹D$ H‹\$`HƒÃH‰L$0H‰H‰D$8€=     u`H‰CH‹œ$    H‰$Hƒ<$ t@H    H‰\$HÇD$.   H‹\$`H‰\$H‹\$hH‰\$ H‹\$pH‰\$(è    HÄ˜   Ã‰%    ë·LCL‰$H‰D$è    ëLCL‰$H‰D$è    é)ÿÿÿ‰é»şÿÿë»è    é&şÿÿ
-      @
-  "".HasGoRun   h  "go.string."linux"   ’  "go.string."amd64"   Æ  type.string   ş
-  runtime.convT2E   Â 6runtime.writeBarrierEnabled   æ  type.string   
-  runtime.convT2E   ê 6runtime.writeBarrierEnabled   ¬  tgo.string."skipping test: 'go run' not available on %s/%s"   
-  .testing.(*common).Skipf   Ô
-  .runtime.writebarrierptr   ü
-  .runtime.writebarrierptr   ¢
-  0runtime.morestack_noctxt   °  "".autotmp_0024  "type.interface {} "".autotmp_0023 Ï"type.interface {} "".autotmp_0022 ?(type.[2]interface {} "".autotmp_0019 o&type.[]interface {} "".autotmp_0018 ¯type.string "".autotmp_0017 type.string "".t  type.*testing.T °ó¯°M à  xÚ;  ŸÈ#7 TgclocalsÂ·37a2283f5c69c342946cad8073b58fca TgclocalsÂ·24dad5c01c8a1c135720cc7d2d411117   ¦/home/eyberg/go/src/github.com/deferpanic/gorump/go/src/internal/testenv/testenv.goş"".HasExec     Hƒì(ÆD$0HƒÄ(Ã P  "".~r0  type.bool P	O  ˆ  TgclocalsÂ·5184031d3a32a42d85027f073f873668 TgclocalsÂ·33cdeccccebe80329f1fdbee7f5874cb   ¦/home/eyberg/go/src/github.com/deferpanic/gorump/go/src/internal/testenv/testenv.goş"".MustHaveExec  À  ´dH‹%    HD$èH;A†¸  Hì˜   è    ¶$€û …  H    H‰\$PHÇD$X   H    H‰\$@HÇD$H   1ÛH‰\$xH‰œ$€   H‰œ$ˆ   H‰œ$   H\$xHƒû „>  HÇD$h   HÇD$p   H‰\$`H    H‰$H\$PH‰\$HÇD$    è    H‹L$H‹D$ H‹\$`H‰L$0H‰H‰D$8€=     …Ä   H‰CH    H‰$H\$@H‰\$HÇD$    è    H‹L$H‹D$ H‹\$`HƒÃH‰L$0H‰H‰D$8€=     u`H‰CH‹œ$    H‰$Hƒ<$ t@H    H‰\$HÇD$.   H‹\$`H‰\$H‹\$hH‰\$ H‹\$pH‰\$(è    HÄ˜   Ã‰%    ë·LCL‰$H‰D$è    ëLCL‰$H‰D$è    é)ÿÿÿ‰é»şÿÿë»è    é&şÿÿ
-      @
-  "".HasExec   h  "go.string."linux"   ’  "go.string."amd64"   Æ  type.string   ş
-  runtime.convT2E   Â 6runtime.writeBarrierEnabled   æ  type.string   
-  runtime.convT2E   ê 6runtime.writeBarrierEnabled   ¬  tgo.string."skipping test: cannot exec subprocess on %s/%s"   
-  .testing.(*common).Skipf   Ô
-  .runtime.writebarrierptr   ü
-  .runtime.writebarrierptr   ¢
-  0runtime.morestack_noctxt   °  "".autotmp_0038  "type.interface {} "".autotmp_0037 Ï"type.interface {} "".autotmp_0036 ?(type.[2]interface {} "".autotmp_0033 o&type.[]interface {} "".autotmp_0032 ¯type.string "".autotmp_0031 type.string "".t  type.*testing.T °ó¯°M à "¦Ú;  ŸÈ#7 TgclocalsÂ·37a2283f5c69c342946cad8073b58fca TgclocalsÂ·24dad5c01c8a1c135720cc7d2d411117   ¦/home/eyberg/go/src/github.com/deferpanic/gorump/go/src/internal/testenv/testenv.goş*"".HasExternalNetwork  @  ,H‹    ¶+H‰èHƒğˆD$Ã  testing.short      "".~r0  type.bool     ¸   TgclocalsÂ·5184031d3a32a42d85027f073f873668 TgclocalsÂ·33cdeccccebe80329f1fdbee7f5874cb   ¦/home/eyberg/go/src/github.com/deferpanic/gorump/go/src/internal/testenv/testenv.goş4"".MustHaveExternalNetwork  €  ædH‹%    H;av]Hƒì0H‹    ¶+@€ı t;H‹\$8H‰$Hƒ<$ t0H    H‰\$HÇD$1   1ÛH‰\$H‰\$ H‰\$(è    HƒÄ0Ã‰%    ëÇè    ë
-
-      ,  testing.short   l  zgo.string."skipping test: no external network in -short mode"   ´
-  .testing.(*common).Skipf   Ú
-  0runtime.morestack_noctxt   `  "".t  type.*testing.T `O_` € Ä;	 
- Y' TgclocalsÂ·87d20ce1b58390b294df80b886db78bf TgclocalsÂ·33cdeccccebe80329f1fdbee7f5874cb   ¦/home/eyberg/go/src/github.com/deferpanic/gorump/go/src/internal/testenv/testenv.goş"".init  À  ²dH‹%    H;avC¶    €û t¶    €ûuÃè    Æ    è    è    è    è    Æ    Ãè    ë§
-      $  "".initdoneÂ·   <  "".initdoneÂ·   R
-  "runtime.throwinit   b "".initdoneÂ·   n
-  os.init   x
-  runtime.init   ‚
-  strings.init   Œ
-  testing.init   ˜ "".initdoneÂ·   ¦
-  0runtime.morestack_noctxt        ` ` Ì` 
- (8 TgclocalsÂ·33cdeccccebe80329f1fdbee7f5874cb TgclocalsÂ·33cdeccccebe80329f1fdbee7f5874cb   ¦/home/eyberg/go/src/github.com/deferpanic/gorump/go/src/internal/testenv/testenv.goş4type..hash.[2]interface {} à  ÊdH‹%    H;a†ˆ   Hƒì(H‹L$81ÀHÇD$   H‹l$H9è}\H‰D$ H‰ÅH‰ÈHÁÀH»¿c»kïR H¯ØH‰ØH‹\$0Hƒû t;HÁåHëH‰$H‰D$8H‰D$è    H‹L$H‹D$ HÿÀH‹l$H9è|¤H‰L$@HƒÄ(Ã‰ëÁè    é[ÿÿÿ
-      ä
-  (runtime.nilinterhash   ¸
-  0runtime.morestack_noctxt   0P  
-"".autotmp_0040 type.int "".autotmp_0039 type.int "".~r2  type.uintptr "".h type.uintptr "".p  *type.*[2]interface {} POP ° ° 
- q? TgclocalsÂ·0b86ef39f3fed835f14ba5f4d7c62fa2 TgclocalsÂ·33cdeccccebe80329f1fdbee7f5874cb   ¦/home/eyberg/go/src/github.com/deferpanic/gorump/go/src/internal/testenv/testenv.goş0type..eq.[2]interface {} à  ÖdH‹%    H;a†Î   HƒìX1ÀHÇD$(   H‹l$(H9è’   H‰D$0H‹\$hHƒû „–   H‰ÅHÁåHëH‹H‹sH‹\$`Hƒû tvH‰ÅHÁåHëH‹H‹SH9ÈuVH‰D$8H‰$H‰T$@H‰T$H‰L$HH‰L$H‰t$PH‰t$è    ¶\$ €û t H‹D$0HÿÀH‹l$(H9èŒnÿÿÿÆD$pHƒÄXÃÆD$p HƒÄXÃ‰ë†‰écÿÿÿè    éÿÿÿ
-      ¼
-  runtime.efaceeq   Ä
-  0runtime.morestack_noctxt   0°  "".autotmp_0044 ?"type.interface {} "".autotmp_0043 "type.interface {} "".autotmp_0042 _type.int "".autotmp_0041 Otype.int "".~r2  type.bool "".q *type.*[2]interface {} "".p  *type.*[2]interface {} &°´¯°	¯° ğ ğ  S TgclocalsÂ·3bb21ca8fe1d99a3e492463bd711418a TgclocalsÂ·a8eabfc4a4514ed6b3b0c61e9680e440   ¦/home/eyberg/go/src/github.com/deferpanic/gorump/go/src/internal/testenv/testenv.goş>go.string.hdr."GO_BUILDER_NAME"                       6go.string."GO_BUILDER_NAME"   ş6go.string."GO_BUILDER_NAME"     GO_BUILDER_NAME  şTgclocalsÂ·33cdeccccebe80329f1fdbee7f5874cb           şTgclocalsÂ·23e8278e2b69a3a75fa59b23c49ed6ad              ş*go.string.hdr."amd64"                       "go.string."amd64"   ş"go.string."amd64"   amd64  ş&go.string.hdr."arm"                       go.string."arm"   şgo.string."arm"   arm  şTgclocalsÂ·33cdeccccebe80329f1fdbee7f5874cb           şTgclocalsÂ·5184031d3a32a42d85027f073f873668              ş*go.string.hdr."linux"                       "go.string."linux"   ş"go.string."linux"   linux  ş€go.string.hdr."skipping test: 'go build' not available on %s/%s"             0          xgo.string."skipping test: 'go build' not available on %s/%s"   şxgo.string."skipping test: 'go build' not available on %s/%s" p  bskipping test: 'go build' not available on %s/%s  şTgclocalsÂ·24dad5c01c8a1c135720cc7d2d411117 (  (          T     şTgclocalsÂ·37a2283f5c69c342946cad8073b58fca (  (                şTgclocalsÂ·33cdeccccebe80329f1fdbee7f5874cb           şTgclocalsÂ·5184031d3a32a42d85027f073f873668              ş|go.string.hdr."skipping test: 'go run' not available on %s/%s"             .          tgo.string."skipping test: 'go run' not available on %s/%s"   ştgo.string."skipping test: 'go run' not available on %s/%s" `  ^skipping test: 'go run' not available on %s/%s  şTgclocalsÂ·24dad5c01c8a1c135720cc7d2d411117 (  (          T     şTgclocalsÂ·37a2283f5c69c342946cad8073b58fca (  (                şTgclocalsÂ·33cdeccccebe80329f1fdbee7f5874cb           şTgclocalsÂ·5184031d3a32a42d85027f073f873668              ş|go.string.hdr."skipping test: cannot exec subprocess on %s/%s"             .          tgo.string."skipping test: cannot exec subprocess on %s/%s"   ştgo.string."skipping test: cannot exec subprocess on %s/%s" `  ^skipping test: cannot exec subprocess on %s/%s  şTgclocalsÂ·24dad5c01c8a1c135720cc7d2d411117 (  (          T     şTgclocalsÂ·37a2283f5c69c342946cad8073b58fca (  (                şTgclocalsÂ·33cdeccccebe80329f1fdbee7f5874cb           şTgclocalsÂ·5184031d3a32a42d85027f073f873668              ş‚go.string.hdr."skipping test: no external network in -short mode"             1          zgo.string."skipping test: no external network in -short mode"   şzgo.string."skipping test: no external network in -short mode" p  dskipping test: no external network in -short mode  şTgclocalsÂ·33cdeccccebe80329f1fdbee7f5874cb           şTgclocalsÂ·87d20ce1b58390b294df80b886db78bf             şTgclocalsÂ·33cdeccccebe80329f1fdbee7f5874cb           şTgclocalsÂ·33cdeccccebe80329f1fdbee7f5874cb           ş0"".initdoneÂ·  type.uint8   ş"".BuilderÂ·f              "".Builder   ş "".HasGoBuildÂ·f              "".HasGoBuild   ş*"".MustHaveGoBuildÂ·f              $"".MustHaveGoBuild   ş"".HasGoRunÂ·f              "".HasGoRun   ş&"".MustHaveGoRunÂ·f               "".MustHaveGoRun   ş"".HasExecÂ·f              "".HasExec   ş$"".MustHaveExecÂ·f              "".MustHaveExec   ş0"".HasExternalNetworkÂ·f              *"".HasExternalNetwork   ş:"".MustHaveExternalNetworkÂ·f              4"".MustHaveExternalNetwork   ş"".initÂ·f              "".init   ş"runtime.gcbits.03    ş8go.string.hdr."interface {}"                       0go.string."interface {}"   ş0go.string."interface {}"    interface {}  ş"type.interface {} À  À              çW                                                                          0€  runtime.algarray   @  "runtime.gcbits.03   P  8go.string.hdr."interface {}"   p  4go.weak.type.*interface {}   €  "runtime.zerovalue   À "type.interface {}   ş"runtime.gcbits.01    ş<go.string.hdr."[]interface {}"                       4go.string."[]interface {}"   ş4go.string."[]interface {}"    []interface {}  ş&type.[]interface {}                   p“ê/                                                         0   runtime.algarray   @  "runtime.gcbits.01   P  <go.string.hdr."[]interface {}"   p  8go.weak.type.*[]interface {}   €  "runtime.zerovalue     "type.interface {}   şRgo.typelink.[]interface {}	[]interface {}              &type.[]interface {}   şTgclocalsÂ·33cdeccccebe80329f1fdbee7f5874cb           şTgclocalsÂ·0b86ef39f3fed835f14ba5f4d7c62fa2             şTgclocalsÂ·a8eabfc4a4514ed6b3b0c61e9680e440              şTgclocalsÂ·3bb21ca8fe1d99a3e492463bd711418a             ş<type..hashfunc.[2]interface {}              4type..hash.[2]interface {}   ş8type..eqfunc.[2]interface {}              0type..eq.[2]interface {}   ş2type..alg.[2]interface {}                        <type..hashfunc.[2]interface {}     8type..eqfunc.[2]interface {}   ş"runtime.gcbits.0f    ş>go.string.hdr."[2]interface {}"                       6go.string."[2]interface {}"   ş6go.string."[2]interface {}"     [2]interface {}  ş(type.[2]interface {} À  À                ,Y¤ñ                                                                        0  2type..alg.[2]interface {}   @  "runtime.gcbits.0f   P  >go.string.hdr."[2]interface {}"   p  :go.weak.type.*[2]interface {}   €  "runtime.zerovalue     "type.interface {}      &type.[]interface {}   şVgo.typelink.[2]interface {}	[2]interface {}              (type.[2]interface {}   ş@go.string.hdr."*[2]interface {}"                       8go.string."*[2]interface {}"   ş8go.string."*[2]interface {}" 0  "*[2]interface {}  ş*type.*[2]interface {}                   ¾s-q 6                                                        0   runtime.algarray   @  "runtime.gcbits.01   P  @go.string.hdr."*[2]interface {}"   p  <go.weak.type.**[2]interface {}   €  "runtime.zerovalue     (type.[2]interface {}   ş.go.string.hdr."runtime"                       &go.string."runtime"   ş&go.string."runtime"   runtime  ş,go.importpath.runtime.                       &go.string."runtime"   ş$go.string.hdr."os"                       go.string."os"   şgo.string."os"   os  ş"go.importpath.os.                       go.string."os"   ş.go.string.hdr."strings"                       &go.string."strings"   ş&go.string."strings"   strings  ş,go.importpath.strings.                       &go.string."strings"   ş.go.string.hdr."testing"                       &go.string."testing"   ş&go.string."testing"   testing  ş,go.importpath.testing.                       &go.string."testing"   ş:type..hash.[2]interface {}Â·f              4type..hash.[2]interface {}   ş6type..eq.[2]interface {}Â·f              0type..eq.[2]interface {}   ş"runtime.zerovalue      ÿÿgo13ld 
