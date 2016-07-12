@@ -5,5 +5,7 @@ go/pkg
 go1.5/bin
 go1.5/pkg
 examples/httpd/httpd.bin
+test/gc_test/*.bin
+test/gc_test/*.h
 
 *.sw[o|p]
