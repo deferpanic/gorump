@@ -8,6 +8,7 @@ package x509
 
 // Possible certificate files; stop after finding one.
 var certFiles = []string{
+	"/etc/openssl/cert.pem",                  // Rumprun
 	"/usr/local/share/certs/ca-root-nss.crt", // FreeBSD/DragonFly
 	"/etc/ssl/cert.pem",                      // OpenBSD
 	"/etc/openssl/certs/ca-certificates.crt", // NetBSD
