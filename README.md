@@ -5,11 +5,32 @@
 This contains code to run Go on the [Rumprun unikernel](https://github.com/rumpkernel/rumprun).
 
 Rumprun is a special project because it allows you to run your Go apps
-unmodified directly on the hypervisor of your choice such as KVM or Xen.
+unmodified directly on the hypervisor of your choice such as KVM or Xen
+as a unikernel.
 
 This allows faster boot times, smaller images and a much smaller attack
 surface for security - not to mention it removes every hacker's favorite syscall - fork.
 
+### Quick Start
+Want to quickly boot a Go unikernel in 2minutes?
+
+1) [Install virgo - the unikernel runner](github.com/deferpanic/virgo)
+
+2) virgo signup my@email.com mypassword
+
+3) ./virgo pull deferpanic/go
+
+## Slightly Longer Web Start:
+
+1) Sign up for a free account at https://deferpanic.com .
+
+2) Cut/Paste your token in ~/.dprc.
+
+3) Watch the demo video @ https://youtu.be/P8RUrx4jE5A .
+
+4) Fork/Compile/Run a unikernel on deferpanic and then run it locally.
+
+### Overview
 We believe unikernels are the future of infrastructure.
 
 This repo contains 2 builds:
@@ -27,8 +48,6 @@ To generate a patch: `git diff go-1-5-1-upstream master`.
 
 We don't intend to fork Go but there's quite a lot of work to do to get
 it in enough shape to put into the main tree.
-
-You can find the latest build of the modified Go @ [https://s3.amazonaws.com/dp-gorump/gorump.tar.gz](https://s3.amazonaws.com/dp-gorump/gorump.tar.gz) .
 
 Please submit pull requests!
 
@@ -127,54 +146,7 @@ cd examples/httpd && make xen
 
 Note: If you are not using rumprun to run your image the minimum memory required is north of 32Mb. We suggest 64Mb. If you do use rumprun the default is 64 so nothing to be concerned with.
 
-- Add Networking to your Image 
-
-via usermode (if you have a wireless only device do this otherwise you have to do the nat hack)
-
-```
-system-x86_64 -m 128 -net nic,model=virtio \
-	-net user,hostfwd=tcp::3000-:3000 -kernel httpd.bin \
-	-append "{ \"net\" : { \"if\":\"vioif0\",,\"type\":\"inet\",,\"method\":\"dhcp\",,},, \"cmdline\": \"http.bin\"}"
-```
-
-via tap:
-```
-sudo ip tuntap add tap0 mode tap
-sudo ifconfig tap0 inet 10.181.181.181/24 up
-```
-
-- Run Your Hello World Webserver
-
-```
-rumprun qemu -i -g '-nographic -vga none' -D 1234 -I t,vioif,'-net tap,ifname=tap0,script=no' -W t,inet,static,10.181.181.180/24 httpd.bin
-```
-
-- Test Your Hello World Webserver
-```
-curl http://10.181.181.180:3000/fast
-```
-
-##### XEN
-
-- Get IP of your XEN bridge network interface, by default it's `xenbr0`
-```
-ifconfig xenbr0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1  }'
-```
-
-e.g. output
-```
-192.168.58.2
-```
-
-Choose free IP address from the subnet, in our example we'll take `192.168.58.3` and start Hello World Webserver
-```
-rumprun xen -i -n inet,static,192.168.58.3/24 httpd-xen.bin
-```
-
-- Test Your Hello World Webserver 
-```
-curl http://192.168.58.3:3000/fast
-```
+Check out https://github.com/deferpanic/virgo
 
 ##### Hacking Instructions
 
