@@ -14,7 +14,7 @@ surface for security - not to mention it removes every hacker's favorite syscall
 ### Quick Start
 Want to quickly boot a Go unikernel in 2minutes?
 
-1) [Install virgo - the unikernel runner](github.com/deferpanic/virgo)
+1) [Install virgo - the unikernel runner](https://github.com/deferpanic/virgo)
 
 2) virgo signup my@email.com mypassword
 
@@ -152,9 +152,4 @@ Check out https://github.com/deferpanic/virgo
 
 ```
 go tool dist list
-```
-
-logging options w/qemu:
-```
--serial file:/tmp/blah -nographic -vga none
 ```
